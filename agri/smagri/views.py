@@ -7,15 +7,17 @@ import os
 
 
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
-
+def Wel(request):
+    return render(request, 'index2.html')
 def Welcome(request):
     return render(request, 'index.html')
-
-def User(request):
+def Res(request):
+    return render(request, 'user2.html')
+def User1(request):
     model_crop = joblib.load('model.sav')
     lis = []
     Dist = {'Kolhapur':0,'Solapur':1,'Satara':2,'Sangli':3,'Pune':4}
-    Soil = {'Black':0,'Red':1, 'Medium Brown': 2, 'Dark Brown': 3, 'Light Brown':4,'Reddish Brown':5}
+    Soil = {'Black':0,'Red':1, 'MediumBrown': 2, 'DarkBrown': 3, 'LightBrown':4,'ReddishBrown':5}
     dataset = pd.read_csv(path)
     F = list(dataset.Crop.unique())
     F = {k: v for v, k in enumerate(F)}
@@ -34,3 +36,31 @@ def User(request):
     res = list(F.keys())[list(F.values()).index(crop)]
     print(res)
     return render(request, 'user.html',{'res':res})
+
+def User2(request):
+    model_fert = joblib.load('model_fert.sav')
+    lis = []
+    Dist = {'Kolhapur':0,'Solapur':1,'Satara':2,'Sangli':3,'Pune':4}
+    Soil = {'Black':0,'Red':1, 'MediumBrown': 2, 'DarkBrown': 3, 'LightBrown':4,'ReddishBrown':5}
+    dataset = pd.read_csv(path)
+    F = list(dataset.Crop.unique())
+    F = {k: v for v, k in enumerate(F)}
+    ferti = list(dataset.Fertilizer.unique())
+    Fert = {k: v for v, k in enumerate(ferti)}
+    D = request.GET['District_Name']
+    S = request.GET['Soil_Color']
+    lis.append(Dist.get(D))
+    lis.append(Soil.get(S))
+    lis.append(request.GET['N'])
+    lis.append(request.GET['P'])
+    lis.append(request.GET['Po'])
+    lis.append(request.GET['pH'])
+    lis.append(request.GET['Rf'])
+    lis.append(request.GET['Temp'])
+    C = request.GET['Crop']
+    lis.append(F.get(C))
+    print(lis)
+    fert = model_fert.predict([lis])
+    res = list(Fert.keys())[list(Fert.values()).index(fert)]
+    print(res)
+    return render(request, 'res.html',{'res':res})

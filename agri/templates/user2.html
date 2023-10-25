@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Website</title>
+</head>
+<body>
+    <h1>Insert Info</h1>
+    <hr>
+    
+    <form action="{% url 'Change' %}">
+        {% csrf_token %}
+        District Name: <select name="District_Name" id="DN" method="POST">
+            <option value="Kolhapur" >Kolhapur</option>
+            <option value="Solapur" >Solapur</option>
+            <option value="Satara">Satara</option>
+            <option value="Sangli">Sangli</option>
+            <option value="Pune" >Pune</option>
+            <option value="" selected >Select an option</option>
+          </select><br><br>
+          Soil Color: <select name="Soil_Color" id="SC" method="POST">
+            <option value="Black" >Black</option>
+            <option value="Red">Red</option>
+            <option value="MediumBrown">Medium Brown</option>
+            <option value="DarkBrown" >Dark Brown</option>
+            <option value="LightBrown" >Light Brown</option>
+            <option value="ReddishBrown" >Reddish Brown</option>
+            <option value="" selected >Select an option</option>
+
+          </select><br><br>
+        N: <input type="text" required name="N"><br><br>
+        P: <input type="text" required name="P"><br><br>
+        Po: <input type="text" required name="Po"><br><br>
+        pH: <input type="text" required name="pH"><br><br>
+        Rainfall: <input type="text" required name="Rf"><br><br>
+        Temp: <input type="text" required name="Temp"><br><br>
+
+        Crop : <select name="Crop" id="C" method="POST">
+            <option value="Sugarcane" >Jowar</option>
+            <option value="Jowar">Jowar</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Rice" >Rice</option>
+            <option value="Wheat" >Wheat</option>
+            <option value="Groundnut" >Groundnut</option>
+            <option value="Maize" >Maize</option>
+            <option value="Tur" >Tur</option>
+            <option value="Urad" >Urad</option>
+            <option value="Moong" >Moong</option>
+            <option value="Gram" >Gram</option>
+            <option value="Masoor" >Masoor</option>
+            <option value="Soybean" >Soybean</option>
+            <option value="Ginger" >Ginger</option>
+            <option value="Turmeric" >Turmeric</option>
+            <option value="Grapes" >Grapes</option><br><br>
+
+            <option value="" selected >Select an option</option><br><br>
+    <input type="submit" name="" value="submit">
+    </form>
+   
+</body>
+</html>

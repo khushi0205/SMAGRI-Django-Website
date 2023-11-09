@@ -4,26 +4,24 @@ import pandas as pd
 # Create your views here.
 from django.conf import settings
 import os
-
+from .variables import Dist, Soil, F, Fert
+from .avg import umm
 
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
+
 def Wel(request):
     return render(request, 'index2.html')
 def Welcome(request):
     return render(request, 'index.html')
 def Res(request):
     return render(request, 'user2.html')
+def Alt_Res(request):
+    return render(request, 'alter.html')
 def User1(request):
     model_crop = joblib.load('model.sav')
     lis = []
-    Dist = {'Kolhapur':0,'Solapur':1,'Satara':2,'Sangli':3,'Pune':4}
-    Soil = {'Black':0,'Red':1, 'MediumBrown': 2, 'DarkBrown': 3, 'LightBrown':4,'ReddishBrown':5}
-    dataset = pd.read_csv(path)
-    F = list(dataset.Crop.unique())
-    F = {k: v for v, k in enumerate(F)}
     D = request.GET['District_Name']
     S = request.GET['Soil_Color']
-    
     lis.append(Dist.get(D))
     lis.append(Soil.get(S))
     lis.append(request.GET['N'])
@@ -40,13 +38,6 @@ def User1(request):
 def User2(request):
     model_fert = joblib.load('model_fert.sav')
     lis = []
-    Dist = {'Kolhapur':0,'Solapur':1,'Satara':2,'Sangli':3,'Pune':4}
-    Soil = {'Black':0,'Red':1, 'MediumBrown': 2, 'DarkBrown': 3, 'LightBrown':4,'ReddishBrown':5}
-    dataset = pd.read_csv(path)
-    F = list(dataset.Crop.unique())
-    F = {k: v for v, k in enumerate(F)}
-    ferti = list(dataset.Fertilizer.unique())
-    Fert = {k: v for v, k in enumerate(ferti)}
     D = request.GET['District_Name']
     S = request.GET['Soil_Color']
     lis.append(Dist.get(D))
@@ -64,3 +55,14 @@ def User2(request):
     res = list(Fert.keys())[list(Fert.values()).index(fert)]
     print(res)
     return render(request, 'res.html',{'res':res})
+
+def Alt_Crop(request):
+    C = request.GET['Crop']
+    data = pd.DataFrame()
+    
+    for key in umm.keys():
+        if C in key:
+            data[key] = umm[key]    
+    
+    data_html = data.to_html()
+    return render(request, 'altres.html', {'df_html': data_html})

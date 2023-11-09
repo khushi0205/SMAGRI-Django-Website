@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Website</title>
+</head>
+<body>
+    <h1>Insert Info</h1>
+    <hr>
+    
+    <form action="{% url 'AltCrop' %}">
+        {% csrf_token %}
+        Crop : <select name="Crop" id="C" method="POST">
+            <option value="Sugarcane" >Jowar</option>
+            <option value="Jowar">Jowar</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Rice" >Rice</option>
+            <option value="Wheat" >Wheat</option>
+            <option value="Groundnut" >Groundnut</option>
+            <option value="Maize" >Maize</option>
+            <option value="Tur" >Tur</option>
+            <option value="Urad" >Urad</option>
+            <option value="Moong" >Moong</option>
+            <option value="Gram" >Gram</option>
+            <option value="Masoor" >Masoor</option>
+            <option value="Soybean" >Soybean</option>
+            <option value="Ginger" >Ginger</option>
+            <option value="Turmeric" >Turmeric</option>
+            <option value="Grapes" >Grapes</option><br><br>
+
+            <option value="" selected >Select an option</option><br><br>
+    <input type="submit" name="" value="submit">
+    </form>
+   
+</body>
+</html>

@@ -1,3 +1,5 @@
+{% extends 'base.html' %} {% block content %}
+ {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +10,31 @@
     <title>Agri Website</title>
 </head>
 <body>
-    <h1>Welcome page</h1>
+    <div class="container">
+    <h1>Welcome to Smart Agri</h1>
     <hr>
 
 <a href="{% url 'Welcome' %}" ><h1> Find suitable crop</h1></a>
 <a href="{% url 'Res' %}" ><h1>Current Crop Yield</h1></a>
 <a href="{% url 'AltC' %}" ><h1>Crop Data</h1></a>
+</div>
 </body>
 </html>
+<style>
+    .container {
+        display: flex;
+        flex-direction: column; /* Set flex direction to column */
+        justify-content: center;
+        align-items: center;
+        height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
+    }
+
+    /* Optional: Add styling to the items if needed */
+    .container div {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+</style>
+{% endblock %}
+

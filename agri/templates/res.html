@@ -1,3 +1,5 @@
+{% extends 'base.html' %} {% block content %}
+ {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +9,26 @@
     <title>Result</title>
 </head>
 <body>
+    <div class="container">
     <h1>The suitable fertilizer to your crop is {{res}}</h1>
+    </div>
 </body>
 </html>
+<style>
+    .container {
+        display: flex;
+        flex-direction: column; /* Set flex direction to column */
+        justify-content: center;
+        align-items: center;
+        height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
+        
+    }
+
+    /* Optional: Add styling to the items if needed */
+    .container div {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+</style>
+{% endblock %}

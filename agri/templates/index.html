@@ -1,3 +1,6 @@
+{% extends 'base.html' %} {% block content %}
+ {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +10,7 @@
     <title>Agri Website</title>
 </head>
 <body>
+  <div class="container">
     <h1>Insert Info</h1>
     <hr>
     
@@ -38,6 +42,28 @@
         Temp: <input type="text" required name="Temp"><br><br>
     <input type="submit" name="" value="submit">
     </form>
-   
+   </div>
 </body>
 </html>
+<style>
+  .container {
+      display: flex;
+      flex-direction: column; /* Set flex direction to column */
+      justify-content: center;
+      align-items: center;
+      height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
+      position: relative;
+    top: 28px;
+    background-color: darkseagreen;
+    width: 406px;
+    border-radius: 20px;
+  }
+
+  /* Optional: Add styling to the items if needed */
+  .container div {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+  }
+</style>
+{% endblock %}

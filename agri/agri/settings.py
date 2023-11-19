@@ -68,7 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agri.wsgi.application'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_AGE = 30
+SESSION_COOKIE_AGE = 3600
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

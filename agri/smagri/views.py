@@ -32,6 +32,12 @@ def User1(request):
     lis.append(request.GET['pH'])
     lis.append(request.GET['Rf'])
     lis.append(request.GET['Temp'])
+    request.session['N'] = request.GET['N']
+    request.session['P'] = request.GET['P']
+    request.session['Po'] = request.GET['Po']
+    request.session['pH'] = request.GET['pH']
+    request.session['Rf'] = request.GET['Rf']
+    request.session['Temp'] = request.GET['Temp']
     crop = model_crop.predict([lis])
     res = list(F.keys())[list(F.values()).index(crop)]
     print(res)
@@ -82,10 +88,7 @@ def Alt_Crop(request):
     lis.append(request.session.get('Rf'))
     lis.append(request.session.get('Temp'))
 
-    if len(lis) == 0:
-        data_html = data.to_html()
-        return render(request, 'altres.html', {'df_html': data_html})
-    else:
+    if 'N' in request.session:
         data['Your Crop'] = lis
         data_html = data.to_html()
         message = None
@@ -95,3 +98,7 @@ def Alt_Crop(request):
             message = "Session data has been cleared."
 
         return render(request, 'altres2.html', {'df_html': data_html,'message': message})
+        
+    else:
+        data_html = data.to_html()
+        return render(request, 'altres.html', {'df_html': data_html})

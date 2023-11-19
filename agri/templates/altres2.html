@@ -14,8 +14,7 @@
     {{df_html | safe}}
 
 
-<br><br><h3>Clear Session Data</h3>
-    <p>Click the button below to clear your session data:</p>
+<br><br>
     <form method="post">
         {% csrf_token %}
         <button type="submit" name="clear_session">Clear Session Data</button>

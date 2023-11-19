@@ -4,11 +4,14 @@
 import pandas as pd
 from django.conf import settings
 import os
+from .avg import umm
 
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
-dataset = pd.read_csv(path)
-F = list(dataset.Fertilizer.unique())
-F = {k: v for v, k in enumerate(F)}
-print(F)
-crop = 10
-print(list(F.keys())[list(F.values()).index(crop)])
+C = 'Cotton'
+data = pd.DataFrame()
+    
+for key in umm.keys():
+    if C in key:
+            data[key] = umm[key]    
+print(data)
+data_html = data.to_html()

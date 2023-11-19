@@ -12,9 +12,18 @@
     <div class="container">
     <h1>The data to your crop is:</h1>
     {{df_html | safe}}
-</div>
 
 
+<br><br><h3>Clear Session Data</h3>
+    <p>Click the button below to clear your session data:</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="clear_session">Clear Session Data</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    </div>
 </body>
 </html>
 <style>

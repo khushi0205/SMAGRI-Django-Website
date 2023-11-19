@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','smart-agri-rnyj.onrender.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -68,8 +67,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'agri.wsgi.application'
-
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 30
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

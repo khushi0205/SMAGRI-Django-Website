@@ -17,7 +17,7 @@
     <form action="{% url 'AltCrop' %}">
         {% csrf_token %}
         Crop : <select name="Crop" id="C" method="POST">
-            <option value="Sugarcane" >Jowar</option>
+            <option value="Sugarcane" >Sugarcane</option>
             <option value="Jowar">Jowar</option>
             <option value="Cotton">Cotton</option>
             <option value="Rice" >Rice</option>
@@ -32,9 +32,10 @@
             <option value="Soybean" >Soybean</option>
             <option value="Ginger" >Ginger</option>
             <option value="Turmeric" >Turmeric</option>
-            <option value="Grapes" >Grapes</option><br><br>
+            <option value="Grapes" >Grapes</option>
 
-            <option value="" selected >Select an option</option><br><br>
+            <option value="" selected >Select an option</option>
+          </select><br><br>
     <input type="submit" name="" value="submit">
     </form>
    </div>
@@ -42,18 +43,38 @@
 </html>
 <style>
     .container {
-        display: flex;
-        flex-direction: column; /* Set flex direction to column */
-        justify-content: center;
-        align-items: center;
-        height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
-    }
+      display: flex;
+      flex-direction: column; /* Set flex direction to column */
+      justify-content: center;
+      align-items: center;
+      height: 85vh; /* Optional: If you want the container to take the full height of the viewport */
+      position: relative;
+    top: 28px;
+    background-color: darkseagreen;
+    width: 430px;
+    border-radius: 20px;
+  }
 
-    /* Optional: Add styling to the items if needed */
-    .container div {
-        margin: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
+  /* Optional: Add styling to the items if needed */
+  .container div {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+  }
+
+
+input[type="submit"] {
+  background-color: rgb(255, 60, 0);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Hover effect for submit button */
+input[type="submit"]:hover {
+  background-color: #f122a2;
+}
 </style>
 {% endblock %}

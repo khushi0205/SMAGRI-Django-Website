@@ -17,6 +17,8 @@ def Res(request):
     return render(request, 'user2.html')
 def Alt_Res(request):
     return render(request, 'alter.html')
+
+
 def User1(request):
     model_crop = joblib.load('model.sav')
     lis = []
@@ -33,7 +35,9 @@ def User1(request):
     crop = model_crop.predict([lis])
     res = list(F.keys())[list(F.values()).index(crop)]
     print(res)
+
     return render(request, 'user.html',{'res':res})
+
 
 def User2(request):
     model_fert = joblib.load('model_fert.sav')
@@ -48,6 +52,12 @@ def User2(request):
     lis.append(request.GET['pH'])
     lis.append(request.GET['Rf'])
     lis.append(request.GET['Temp'])
+    request.session['N'] = request.GET['N']
+    request.session['P'] = request.GET['P']
+    request.session['Po'] = request.GET['Po']
+    request.session['pH'] = request.GET['pH']
+    request.session['Rf'] = request.GET['Rf']
+    request.session['Temp'] = request.GET['Temp']
     C = request.GET['Crop']
     lis.append(F.get(C))
     print(lis)
@@ -56,13 +66,32 @@ def User2(request):
     print(res)
     return render(request, 'res.html',{'res':res})
 
+
 def Alt_Crop(request):
     C = request.GET['Crop']
     data = pd.DataFrame()
-    
+    lis = []
     for key in umm.keys():
         if C in key:
             data[key] = umm[key]    
-    
-    data_html = data.to_html()
-    return render(request, 'altres.html', {'df_html': data_html})
+
+    lis.append(request.session.get('N'))
+    lis.append(request.session.get('P'))
+    lis.append(request.session.get('Po'))
+    lis.append(request.session.get('pH'))
+    lis.append(request.session.get('Rf'))
+    lis.append(request.session.get('Temp'))
+
+    if len(lis) == 0:
+        data_html = data.to_html()
+        return render(request, 'altres.html', {'df_html': data_html})
+    else:
+        data['Your Crop'] = lis
+        data_html = data.to_html()
+        message = None
+
+        if request.method == 'POST' and 'clear_session' in request.POST:
+            request.session.flush()  # Clear session data
+            message = "Session data has been cleared."
+
+        return render(request, 'altres2.html', {'df_html': data_html,'message': message})

@@ -27,19 +27,16 @@ def closest_value(data, C):
     df = df.apply(pd.to_numeric, errors='coerce')
 
     # Calculate absolute differences between 'Your Crop' column and other numeric columns
-    differences = df.drop(columns='Your Crop').apply(lambda col: abs(col - df['Your Crop']))
+    differences = df.drop(columns='Your Crop').apply(lambda col: abs(col - df['Your Crop'])).sum(axis=0)
 
-    # Find the column index with the smallest absolute difference for each row
-    closest_column_index = differences.values.argmin(axis=1)
+    # Get the column with the smallest total absolute difference
+    closest_column_name = differences.idxmin()
 
-    # Get the closest column names
-    closest_column_name = df.drop(columns='Your Crop').columns[closest_column_index]
-
-    # Extract values from the closest columns
-    closest_values = [df[closest_column_name[i]][i] for i in range(len(closest_column_name))]
+    # Get the entire column if it's the closest one
+    closest_column_values = df[closest_column_name]
 
     # Create a new dataframe with 'Your Crop' and the closest column values
-    new_df = pd.DataFrame({'Your Crop': df['Your Crop'], f'Standard Values for {C}': closest_values})
+    new_df = pd.DataFrame({'Your Crop': df['Your Crop'], f'Standard Values for {C}': closest_column_values})
 
     print(new_df)
     return new_df

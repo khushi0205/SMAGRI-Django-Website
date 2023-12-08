@@ -8,9 +8,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
 </head>
-<body>
+<body><br><br>
     <div class="container">
-    <h1>The suitable crop for your soil is {{res}}</h1>
+    <h1>The suitable crop for your soil is {{res}}</h1><br><br>
+    <h2> Crop:</h2><h3> {{ info.name | safe }}</h3><br>
+    <h2> Planting Season:</h2><h3> {{ info.planting_season | safe}}</h3><br>
+    <h2> Regions:</h2> <h3>{{ info.regions | safe}}</h3><br>
+    <h2> Cultivation Guide:</h2> <br><h3>{{ info.introduction | safe}} </h3><br><br>
+    <h3>The data to your crop is:</h3>
+        {{data | safe}}
+    
+    <br><br>
+
+<!-- <br><br>
+  <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="clear_session">Clear Session Data</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %} -->
+
+    
     </div>
 </body>
 </html>
@@ -20,7 +39,7 @@
         flex-direction: column; /* Set flex direction to column */
         justify-content: center;
         align-items: center;
-        height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
+        min-height: 100vh; /* Optional: If you want the container to take the full height of the viewport */
     }
 
     /* Optional: Add styling to the items if needed */
@@ -28,6 +47,13 @@
         margin: 10px;
         padding: 10px;
         border: 1px solid #ccc;
+    }
+    .container pre {
+      font-family: "Roboto",sans-serif, monospace;
+      white-space: pre-wrap; /* Preserve line breaks */
+      margin: 20px;
+      padding: 20px;
+     
     }
 </style>
 {% endblock %}

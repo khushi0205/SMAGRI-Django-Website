@@ -9,8 +9,43 @@
     <title>Result</title>
 </head>
 <body>
-    <div class="container">
-    <h1>The suitable fertilizer to your crop is {{res}}</h1>
+    <div class="container"><br><br>
+   <h1>The suitable fertilizer to your crop is {{res}}</h1><br>
+   <!-- <table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Planting Season</th>
+            <th>Regions</th>
+            <th>Introduction</th>
+        </tr>
+    </thead>
+     <tbody>
+        <tr>
+            <td>{{ info.name | safe }}</td>
+            <td>{{ info.planting_season | safe}}</td>
+            <td>{{ info.regions | safe}}</td>
+            <td>{{ info.introduction | safe}}</td>
+        </tr>
+    </tbody>
+</table><br><br> -->
+
+<h2> Crop:</h2><h3> {{ info.name | safe }}</h3><br>
+<h2> Planting Season:</h2><h3> {{ info.planting_season | safe}}</h3><br>
+<h2> Regions:</h2> <h3>{{ info.regions | safe}}</h3><br>
+<h2> Cultivation Guide:</h2> <br><h3>{{ info.introduction | safe}} </h3><br><br>
+<h3>The data to your crop is:</h3>
+    {{data | safe}}
+
+<br><br>
+<!--<br><br>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="clear_session">Clear Session Data</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %} -->
     </div>
 </body>
 </html>
@@ -20,7 +55,7 @@
         flex-direction: column; /* Set flex direction to column */
         justify-content: center;
         align-items: center;
-        height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
+        min-height: 100vh; /* Optional: If you want the container to take the full height of the viewport */
         
     }
 
@@ -30,5 +65,12 @@
         padding: 10px;
         border: 1px solid #ccc;
     }
-</style>
+    .container pre {
+      font-family: "Roboto",sans-serif, monospace;
+      white-space: pre-wrap; /* Preserve line breaks */
+      margin: 20px;
+      padding: 20px;
+     
+    }
+  </style>
 {% endblock %}

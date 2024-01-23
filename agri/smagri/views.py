@@ -4,9 +4,16 @@ import pandas as pd
 # Create your views here.
 from django.conf import settings
 import os
-from .variables import Dist, Soil, F, Fert
-from .avg import umm, closest_value
+from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes
+from .avg import umm, closest_value, predict
 from .models import Crop
+from keras.models import load_model
+from datetime import datetime, timedelta
+import numpy as np
+import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
+from django.template.defaultfilters import safe
 
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 
@@ -18,6 +25,8 @@ def Res(request):
     return render(request, 'user2.html')
 def Alt_Res(request):
     return render(request, 'alter.html')
+def MarkP(request):
+    return render(request, 'market_prices.html')
 
 
 def User1(request):
@@ -100,34 +109,56 @@ def User1(request):
         return render(request, 'res.html',{'res':res, 'info':cotton_info,'data': data_html, 'msg': message})
 
 
-""" def User2(request):
-    model_fert = joblib.load('model_fert.sav')
-    lis = []
-    D = request.GET['District_Name']
-    S = request.GET['Soil_Color']
-    lis.append(Dist.get(D))
-    lis.append(Soil.get(S))
-    lis.append(request.GET['N'])
-    lis.append(request.GET['P'])
-    lis.append(request.GET['Po'])
-    lis.append(request.GET['pH'])
-    lis.append(request.GET['Rf'])
-    lis.append(request.GET['Temp'])
-    request.session['N'] = request.GET['N']
-    request.session['P'] = request.GET['P']
-    request.session['Po'] = request.GET['Po']
-    request.session['pH'] = request.GET['pH']
-    request.session['Rf'] = request.GET['Rf']
-    request.session['Temp'] = request.GET['Temp']
+def User2(request):
     C = request.GET['Crop']
-    lis.append(F.get(C))
-    print(lis)
-    fert = model_fert.predict([lis])
-    res = list(Fert.keys())[list(Fert.values()).index(fert)]
-    print(res)
-    return render(request, 'res.html',{'res':res}) """
+    if C == 'Jowar':
+        model = load_model('Jowar_mn.h5')
+        data, fps = predict(jowar, model)
+    if C == 'Gram':
+        model = load_model('Gram_mn.h5')
+        data, fps = predict(gram, model)
+    if C == 'Grapes':
+        model = load_model('Grapes_mn.h5')
+        data, fps = predict(grapes, model)
+    if C == 'Ginger':
+        model = load_model('Ginger_mn.h5')
+        data, fps = predict(ging, model)
+    
+    data_dummy = data
+    #data_dummy = data_dummy.head()
+    #data_html = data.to_html()
+    data_html = data.to_html(classes='table table-bordered hidden-row')
+    fps['Min Price Change'] = fps['Predicted Min Price'].pct_change() * 100
+    fps['Max Price Change'] = fps['Predicted Max Price'].pct_change() * 100
+    fps['Modal Price Change'] = fps['Predicted Modal Price'].pct_change() * 100
 
+    # Group by three-month intervals
+    fps['Quarter'] = fps['Timestamp'].dt.to_period("Q")
+    grouped_df = fps.groupby('Quarter').mean()
 
+    # Plotting
+    plt.figure(figsize=(8, 6))
+
+    plt.plot(grouped_df.index.astype(str), grouped_df['Min Price Change'], label='Min Price Change', marker='o')
+    plt.plot(grouped_df.index.astype(str), grouped_df['Max Price Change'], label='Max Price Change', marker='o')
+    plt.plot(grouped_df.index.astype(str), grouped_df['Modal Price Change'], label='Modal Price Change', marker='o')
+
+    plt.title('Average Predicted Price Changes Every Three Months')
+    plt.xlabel('Quarter')
+    plt.ylabel('Average Percentage Change')
+    plt.legend()
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    image_stream = BytesIO()
+    plt.savefig(image_stream, format='png')
+    plt.close()
+
+    # Convert the BytesIO object to a base64-encoded string
+    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
+    return render(request, 'market_prices_res.html',{ 'data': safe(data_html), 'Crop': C , 'image_base64': image_base64}) 
+
+"""
 def Alt_Crop(request):
     C = request.GET['Crop']
     data = pd.DataFrame()
@@ -156,4 +187,4 @@ def Alt_Crop(request):
         
     else:
         data_html = data.to_html()
-        return render(request, 'altres.html', {'df_html': data_html})
+        return render(request, 'altres.html', {'df_html': data_html})"""

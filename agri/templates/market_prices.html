@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+ {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Website</title>
+</head>
+<body>
+  <div class="container">
+    <h2>Select Crop</h2>
+    <hr>
+    
+    <form action="{% url 'MP_res' %}">
+        {% csrf_token %}
+        Crop : <select name="Crop" id="C" method="POST">
+          <option value="Jowar">Jowar</option>
+          <option value="Gram" >Gram</option>
+          <option value="Ginger" >Ginger</option>
+          <option value="Grapes" >Grapes</option>
+          <option value="Selectanoption" selected >Select an option</option>
+        </select><br><br>
+
+    <input type="submit" name="" value="submit">
+    </form>
+   </div>
+</body>
+</html>
+<style>
+  .container {
+      display: flex;
+      flex-direction: column; /* Set flex direction to column */
+      justify-content: left;
+      align-items: normal;
+      height: 25vh; /* Optional: If you want the container to take the full height of the viewport */
+      position: relative;
+    top: 28px;
+    background-color: darkseagreen;
+    width: 90%;
+    border-radius: 20px;
+  }
+
+  /* Optional: Add styling to the items if needed */
+  .container div {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+  }
+
+
+input[type="submit"] {
+  background-color: rgb(255, 60, 0);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Hover effect for submit button */
+input[type="submit"]:hover {
+  background-color: #f122a2;
+}
+</style>
+{% endblock %}

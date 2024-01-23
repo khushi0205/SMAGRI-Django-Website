@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {% block content %}
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body >
+    <div class="container">
+      <h2>Select Crop</h2>
+      <hr>
+      
+      <form action="{% url 'MP_res' %}">
+          {% csrf_token %}
+          Crop : <select name="Crop" id="C" method="POST">
+            <option value="Jowar">Jowar</option>
+            <option value="Gram" >Gram</option>
+            <option value="Ginger" >Ginger</option>
+            <option value="Grapes" >Grapes</option>
+            <option value="Selectanoption" selected >{{Crop}}</option>
+          </select>
+  
+      <input type="submit" name="" value="submit">
+      </form>
+      </div>
+      <br> <br>
+      <div class="container1">
+        <div class="table-wrapper" id="table-wrapper">
+          {{ data | safe }} 
+      </div>
+      
+    <br><br>
+    <img src="data:image/png;base64,{{ image_base64 }}" alt="Matplotlib Image" style='height: 430px; width: 580px; align-self: center'>
+     </div>
+     <br><br>
+  </body>
+  </html>
+  <style>
+    .container {
+        display: flex;
+        flex-direction: column; /* Set flex direction to column */
+        justify-content: left;
+        align-items: normal;
+        height: 25vh; /* Optional: If you want the container to take the full height of the viewport */
+        position: relative;
+      top: 28px;
+      background-color: darkseagreen;
+      width: 90%;
+      border-radius: 20px;
+    }
+  
+    /* Optional: Add styling to the items if needed */
+    .container div {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+  
+    .container1 {
+      display: flex;
+        flex-direction: column; /* Set flex direction to column */
+        justify-content: center;
+        width: 80%;
+        margin: 0 auto;
+    }
+  input[type="submit"] {
+    background-color: rgb(255, 60, 0);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  /* Hover effect for submit button */
+  input[type="submit"]:hover {
+    background-color: #f122a2;
+  }
+  </style>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const tableWrapper = document.getElementById('table-wrapper');
+      const readMoreBtn = document.getElementById('read-more-btn');
+
+      // Function to toggle visibility of additional rows
+      function toggleRows() {
+          const additionalRows = tableWrapper.querySelectorAll('.hidden-row');
+
+          for (let i = 0; i < additionalRows.length; i++) {
+              additionalRows[i].style.display = (additionalRows[i].style.display === 'none') ? 'table-row' : 'none';
+          }
+
+          readMoreBtn.innerText = (additionalRows[0].style.display === 'none') ? 'Read More' : 'Read Less';
+      }
+
+      // Show the "Read More" button only if there are additional rows
+      if (tableWrapper.scrollHeight > tableWrapper.clientHeight) {
+          readMoreBtn.style.display = 'block';
+          readMoreBtn.addEventListener('click', toggleRows);
+      }
+  });
+</script>
+  {% endblock %}
+

@@ -111,22 +111,23 @@ def User1(request):
 
 def User2(request):
     C = request.GET['Crop']
+    data = pd.DataFrame()
     if C == 'Jowar':
         model = load_model('Jowar_mn.h5')
         data, fps = predict(jowar, model)
+        MN = MN_jowar
     if C == 'Gram':
         model = load_model('Gram_mn.h5')
         data, fps = predict(gram, model)
+        MN = MN_gram
     if C == 'Grapes':
         model = load_model('Grapes_mn.h5')
         data, fps = predict(grapes, model)
+        MN = MN_grapes
     if C == 'Ginger':
         model = load_model('Ginger_mn.h5')
         data, fps = predict(ging, model)
-    
-    data_dummy = data
-    #data_dummy = data_dummy.head()
-    #data_html = data.to_html()
+        MN = MN_ging
     data_html = data.to_html(classes='table table-bordered hidden-row')
     fps['Min Price Change'] = fps['Predicted Min Price'].pct_change() * 100
     fps['Max Price Change'] = fps['Predicted Max Price'].pct_change() * 100
@@ -156,7 +157,56 @@ def User2(request):
 
     # Convert the BytesIO object to a base64-encoded string
     image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
-    return render(request, 'market_prices_res.html',{ 'data': safe(data_html), 'Crop': C , 'image_base64': image_base64}) 
+    
+    return render(request, 'market_prices_res.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C , 'image_base64': image_base64}) 
+
+def User3(request):
+    C = request.GET['Crop']
+    MNe = request.GET['MName']
+    data = pd.DataFrame()
+    if C == 'Jowar':
+        model = load_model('Jowar_mn.h5')
+        data, fps = predict(jowar, model)
+        MN = MN_jowar
+    if C == 'Gram':
+        model = load_model('Gram_mn.h5')
+        data, fps = predict(gram, model)
+        MN = MN_gram
+    if C == 'Grapes':
+        model = load_model('Grapes_mn.h5')
+        data, fps = predict(grapes, model)
+        MN = MN_grapes
+    if C == 'Ginger':
+        model = load_model('Ginger_mn.h5')
+        data, fps = predict(ging, model)
+        MN = MN_ging
+    
+    if MNe in data['Market_Name'].unique():
+    # Filter the DataFrame for the specific market
+        market_data = data[data['Market_Name'] == MNe]
+    data_html = market_data.to_html(classes='table table-bordered hidden-row')
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(market_data['Timestamp'], market_data['Predicted Min Price'], label='Predicted Min Price')
+    plt.plot(market_data['Timestamp'], market_data['Predicted Max Price'], label='Predicted Max Price')
+    plt.plot(market_data['Timestamp'], market_data['Predicted Modal Price'], label='Predicted Modal Price')
+    
+    plt.title(f'Predicted Prices for {MNe}')
+    plt.xlabel('Timestamp')
+    plt.ylabel('Price (Rs./Quintal)')
+    plt.legend()
+
+    image_stream = BytesIO()
+    plt.savefig(image_stream, format='png')
+    plt.close()
+
+    # Convert the BytesIO object to a base64-encoded string
+    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
+    return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C, 'image_base64': image_base64 }) 
+    
+    
+
+
 
 """
 def Alt_Crop(request):

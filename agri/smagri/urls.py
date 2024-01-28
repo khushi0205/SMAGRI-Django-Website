@@ -8,6 +8,7 @@ urlpatterns = [
     path('Res/', views.Res, name='Res'),
     path('MarketPrice/', views.MarkP, name='MP'),
     path('MarketPriceRes/', views.User2, name='MP_res'),
+    path('MarketPriceResult/', views.User3, name='MP_result'),
     #path('Alternative_res/', views.Alt_Crop, name='AltCrop'),
     path('Alternative/', views.Alt_Res, name='AltC')
 

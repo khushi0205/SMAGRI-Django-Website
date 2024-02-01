@@ -20,6 +20,9 @@
             <option value="Gram" >Gram</option>
             <option value="Ginger" >Ginger</option>
             <option value="Grapes" >Grapes</option>
+            <option value="Maize" >Maize</option>
+            <option value="Wheat" >Wheat</option>
+
             <option value={{Crop}} selected >{{Crop}}</option>
           </select>
           Market Name : <select name="MName" id="MName" method="POST">
@@ -87,27 +90,27 @@
   }
   </style>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-      const tableWrapper = document.getElementById('table-wrapper');
-      const readMoreBtn = document.getElementById('read-more-btn');
-
-      // Function to toggle visibility of additional rows
-      function toggleRows() {
-          const additionalRows = tableWrapper.querySelectorAll('.hidden-row');
-
-          for (let i = 0; i < additionalRows.length; i++) {
-              additionalRows[i].style.display = (additionalRows[i].style.display === 'none') ? 'table-row' : 'none';
-          }
-
-          readMoreBtn.innerText = (additionalRows[0].style.display === 'none') ? 'Read More' : 'Read Less';
-      }
-
-      // Show the "Read More" button only if there are additional rows
-      if (tableWrapper.scrollHeight > tableWrapper.clientHeight) {
-          readMoreBtn.style.display = 'block';
-          readMoreBtn.addEventListener('click', toggleRows);
-      }
-  });
-</script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableWrapper = document.getElementById('table-wrapper');
+  
+        // Function to toggle visibility of additional rows
+        function toggleRows() {
+            const additionalRows = tableWrapper.querySelectorAll('.hidden-row');
+  
+            for (let i = 0; i < additionalRows.length; i++) {
+                additionalRows[i].style.display = (additionalRows[i].style.display === 'none') ? 'table-row' : 'none';
+            }
+        }
+  
+        // Show the "Read More" button only if there are additional rows (removed related code)
+  
+        // Plain JavaScript for download button click event
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.addEventListener('click', function () {
+            // Trigger the PDF download by opening a new window or redirecting to the download_pdf view
+            window.open('/download_pdf/', '_blank');
+        });
+    });
+  </script>
   {% endblock %}
 

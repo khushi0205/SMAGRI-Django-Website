@@ -1,10 +1,12 @@
 from django.shortcuts import render
 import joblib
 import pandas as pd
+from django.http import HttpResponse
 # Create your views here.
+from django.views import View
 from django.conf import settings
 import os
-from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes
+from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes,maize,wheat,MN_maize,MN_wheat
 from .avg import umm, closest_value, predict
 from .models import Crop
 from keras.models import load_model
@@ -14,7 +16,8 @@ import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 from django.template.defaultfilters import safe
-
+from xhtml2pdf import pisa
+import io
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 
 def Wel(request):
@@ -128,6 +131,15 @@ def User2(request):
         model = load_model('Ginger_mn.h5')
         data, fps = predict(ging, model)
         MN = MN_ging
+    if C == 'Wheat':
+        model = load_model('Wheat_mn.h5')
+        data, fps = predict(wheat, model)
+        MN = MN_wheat
+    if C == 'Maize':
+        model = load_model('Maize_mn.h5')
+        data, fps = predict(maize, model)
+        MN = MN_maize
+        
     data_html = data.to_html(classes='table table-bordered hidden-row')
     fps['Min Price Change'] = fps['Predicted Min Price'].pct_change() * 100
     fps['Max Price Change'] = fps['Predicted Max Price'].pct_change() * 100
@@ -180,12 +192,20 @@ def User3(request):
         model = load_model('Ginger_mn.h5')
         data, fps = predict(ging, model)
         MN = MN_ging
-    
+    if C == 'Wheat':
+        model = load_model('Wheat_mn.h5')
+        data, fps = predict(wheat, model)
+        MN = MN_wheat
+    if C == 'Maize':
+        model = load_model('Maize_mn.h5')
+        data, fps = predict(maize, model)
+        MN = MN_maize
+
     if MNe in data['Market_Name'].unique():
     # Filter the DataFrame for the specific market
         market_data = data[data['Market_Name'] == MNe]
     data_html = market_data.to_html(classes='table table-bordered hidden-row')
-
+    
     plt.figure(figsize=(12, 6))
     plt.plot(market_data['Timestamp'], market_data['Predicted Min Price'], label='Predicted Min Price')
     plt.plot(market_data['Timestamp'], market_data['Predicted Max Price'], label='Predicted Max Price')
@@ -205,7 +225,55 @@ def User3(request):
     return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C, 'image_base64': image_base64 }) 
     
     
+#class DownloadPDF(View):
+#    def get(self, request, *args, **kwargs):
+#        C = request.GET.get('Crop', '')
+#        MNe = request.GET.get('MName', '')
+#        data = pd.DataFrame()
+#        MN = []
+#        data_html = ''
+#
+#        if C == 'Jowar':
+#            model = load_model('Jowar_mn.h5')
+#            data, fps = predict(jowar, model)
+#            MN = MN_jowar
+#        if C == 'Gram':
+#            model = load_model('Gram_mn.h5')
+#            data, fps = predict(gram, model)
+#            MN = MN_gram
+#        if C == 'Grapes':
+#            model = load_model('Grapes_mn.h5')
+#            data, fps = predict(grapes, model)
+#            MN = MN_grapes
+#        if C == 'Ginger':
+#            model = load_model('Ginger_mn.h5')
+#            data, fps = predict(ging, model)
+#            MN = MN_ging
+#        # Similar code for other crops...
+#
+#        if MNe in data['Market_Name'].unique():
+#            # Filter the DataFrame for the specific market
+#            market_data = data[data['Market_Name'] == MNe]
+#            data_html = market_data.to_html(classes='table table-bordered hidden-row')
 
+        # Generate PDF directly from HTML content
+#       pdf_data = f"""
+#        <html>
+#        <head>
+#            <title>Predicted Prices for {MNe}</title>
+#        </head>
+#        <body>
+#            {data_html}
+#        </body>
+#        </html>
+#        """
+#        response = HttpResponse(content_type='application/pdf')
+#        response['Content-Disposition'] = f'attachment; filename="{C}_{MNe}_Predicted_Prices.pdf"'
+#        pisa_status = pisa.CreatePDF(pdf_data, dest=response)
+#        if not pisa_status.err:
+#            return response
+
+#        return HttpResponse('Error generating PDF', status=500)
 
 
 """

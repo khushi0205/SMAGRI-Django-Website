@@ -57,3 +57,19 @@ MN_jowar = {k: v for v, k in enumerate(mn_jowar)}
 jowar['Price Date'] = pd.to_datetime(jowar['Price Date'])
 jowar = jowar.sort_values(by='Price Date')
 jowar_recent = jowar.iloc[:-1]
+
+p5 = os.path.join(os.path.dirname(__file__), 'Maize.csv')
+maize = pd.read_csv(p5)
+mn_maize = list(maize.Market_Name.unique())
+MN_maize = {k: v for v, k in enumerate(mn_maize)}
+maize['Price Date'] = pd.to_datetime(maize['Price Date'])
+maize = maize.sort_values(by='Price Date')
+maize_recent = maize.iloc[:-1]
+
+p6 = os.path.join(os.path.dirname(__file__), 'Wheat.csv')
+wheat = pd.read_csv(p6)
+mn_wheat = list(wheat.Market_Name.unique())
+MN_wheat = {k: v for v, k in enumerate(mn_wheat)}
+wheat['Price Date'] = pd.to_datetime(wheat['Price Date'])
+wheat = wheat.sort_values(by='Price Date')
+wheat_recent = wheat.iloc[:-1]

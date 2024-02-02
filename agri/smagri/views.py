@@ -7,7 +7,7 @@ from django.views import View
 from django.conf import settings
 import os
 from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes,maize,wheat,MN_maize,MN_wheat
-from .avg import umm, closest_value, predict
+from .avg import umm, closest_value, predict, mn
 from .models import Crop
 from keras.models import load_model
 from datetime import datetime, timedelta
@@ -18,6 +18,9 @@ from io import BytesIO
 from django.template.defaultfilters import safe
 from xhtml2pdf import pisa
 import io
+from django.utils.safestring import mark_safe
+import plotly.express as px
+
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 
 def Wel(request):
@@ -117,60 +120,50 @@ def User2(request):
     data = pd.DataFrame()
     if C == 'Jowar':
         model = load_model('Jowar_mn.h5')
-        data, fps = predict(jowar, model)
+        data = predict(jowar, model)
         MN = MN_jowar
     if C == 'Gram':
         model = load_model('Gram_mn.h5')
-        data, fps = predict(gram, model)
+        data = predict(gram, model)
         MN = MN_gram
     if C == 'Grapes':
         model = load_model('Grapes_mn.h5')
-        data, fps = predict(grapes, model)
+        data = predict(grapes, model)
         MN = MN_grapes
     if C == 'Ginger':
         model = load_model('Ginger_mn.h5')
-        data, fps = predict(ging, model)
+        data = predict(ging, model)
         MN = MN_ging
     if C == 'Wheat':
         model = load_model('Wheat_mn.h5')
-        data, fps = predict(wheat, model)
+        data = predict(wheat, model)
         MN = MN_wheat
     if C == 'Maize':
         model = load_model('Maize_mn.h5')
-        data, fps = predict(maize, model)
+        data = predict(maize, model)
         MN = MN_maize
-        
+
     data_html = data.to_html(classes='table table-bordered hidden-row')
-    fps['Min Price Change'] = fps['Predicted Min Price'].pct_change() * 100
-    fps['Max Price Change'] = fps['Predicted Max Price'].pct_change() * 100
-    fps['Modal Price Change'] = fps['Predicted Modal Price'].pct_change() * 100
+    data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
+    data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
+    data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
 
-    # Group by three-month intervals
-    fps['Quarter'] = fps['Timestamp'].dt.to_period("Q")
-    grouped_df = fps.groupby('Quarter').mean()
 
-    # Plotting
-    plt.figure(figsize=(8, 6))
+    data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
+    grouped_df = data.groupby('Quarter').mean().reset_index()
 
-    plt.plot(grouped_df.index.astype(str), grouped_df['Min Price Change'], label='Min Price Change', marker='o')
-    plt.plot(grouped_df.index.astype(str), grouped_df['Max Price Change'], label='Max Price Change', marker='o')
-    plt.plot(grouped_df.index.astype(str), grouped_df['Modal Price Change'], label='Modal Price Change', marker='o')
+    # Plotting with Plotly Express
+    fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change', 'Modal Price Change'],
+                  labels={'value': 'Average Percentage Change'},
+                  title='Average Predicted Price Changes Every Three Months',
+                  markers=True, line_shape='linear')
 
-    plt.title('Average Predicted Price Changes Every Three Months')
-    plt.xlabel('Quarter')
-    plt.ylabel('Average Percentage Change')
-    plt.legend()
-    plt.xticks(rotation=45)
-    plt.tight_layout()
+    fig.update_layout(width=1000, height=600)
+    # Convert the Plotly figure to HTML
+    plotly_html = fig.to_html(full_html=False)
 
-    image_stream = BytesIO()
-    plt.savefig(image_stream, format='png')
-    plt.close()
-
-    # Convert the BytesIO object to a base64-encoded string
-    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
     
-    return render(request, 'market_prices_res.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C , 'image_base64': image_base64}) 
+    return render(request, 'market_prices_res.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C , 'plotly_html': mark_safe(plotly_html)}) 
 
 def User3(request):
     C = request.GET['Crop']
@@ -178,51 +171,43 @@ def User3(request):
     data = pd.DataFrame()
     if C == 'Jowar':
         model = load_model('Jowar_mn.h5')
-        data, fps = predict(jowar, model)
+        data = mn(jowar, model, MNe)
         MN = MN_jowar
     if C == 'Gram':
         model = load_model('Gram_mn.h5')
-        data, fps = predict(gram, model)
+        data= mn(gram, model, MNe)
         MN = MN_gram
     if C == 'Grapes':
         model = load_model('Grapes_mn.h5')
-        data, fps = predict(grapes, model)
+        data = mn(grapes, model, MNe)
         MN = MN_grapes
     if C == 'Ginger':
         model = load_model('Ginger_mn.h5')
-        data, fps = predict(ging, model)
+        data= mn(ging, model, MNe)
         MN = MN_ging
     if C == 'Wheat':
         model = load_model('Wheat_mn.h5')
-        data, fps = predict(wheat, model)
+        data= mn(wheat, model, MNe)
         MN = MN_wheat
     if C == 'Maize':
         model = load_model('Maize_mn.h5')
-        data, fps = predict(maize, model)
+        data = mn(maize, model, MNe)
         MN = MN_maize
 
-    if MNe in data['Market_Name'].unique():
-    # Filter the DataFrame for the specific market
-        market_data = data[data['Market_Name'] == MNe]
-    data_html = market_data.to_html(classes='table table-bordered hidden-row')
+    data_html = data.to_html(classes='table table-bordered hidden-row')
+        
+    fig = px.line(data, x='Timestamp',
+                        y=['Predicted Min Price', 'Predicted Max Price', 'Predicted Modal Price'],
+                        labels={'value': 'Price (Rs./Quintal)'},
+                        title=f'Predicted Prices for {MNe}',
+                        markers=True, line_shape='linear')
     
-    plt.figure(figsize=(12, 6))
-    plt.plot(market_data['Timestamp'], market_data['Predicted Min Price'], label='Predicted Min Price')
-    plt.plot(market_data['Timestamp'], market_data['Predicted Max Price'], label='Predicted Max Price')
-    plt.plot(market_data['Timestamp'], market_data['Predicted Modal Price'], label='Predicted Modal Price')
-    
-    plt.title(f'Predicted Prices for {MNe}')
-    plt.xlabel('Timestamp')
-    plt.ylabel('Price (Rs./Quintal)')
-    plt.legend()
+    fig.update_layout(width=1000, height=600)
 
-    image_stream = BytesIO()
-    plt.savefig(image_stream, format='png')
-    plt.close()
+        # Convert the Plotly figure to HTML
+    plotly_html = fig.to_html(full_html=False)
 
-    # Convert the BytesIO object to a base64-encoded string
-    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
-    return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C, 'image_base64': image_base64 }) 
+    return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C, 'plotly_html': mark_safe(plotly_html) }) 
     
     
 #class DownloadPDF(View):

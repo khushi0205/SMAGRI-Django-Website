@@ -10,8 +10,8 @@
 </head>
 <body >
     <div class="container">
-      <h2>Select Crop</h2>
-      <hr>
+      <h2 style="margin-top: 10px;">Select Crop</h2>
+      <br>
       
       <form action="{% url 'MP_result' %}">
           {% csrf_token %}
@@ -34,6 +34,7 @@
           </select>
       <input type="submit" name="" value="submit">
       </form>
+      <a href="{% url 'MP' %} "  onclick="history.go(-1);" style="margin-top: 25px;text-decoration: underline;color: black;">&larr; Go Back</a>
       </div>
       <br> <br>
       <div class="container1">

@@ -1,23 +1,12 @@
 from django.shortcuts import render
 import joblib
 import pandas as pd
-from django.http import HttpResponse
-# Create your views here.
-from django.views import View
-from django.conf import settings
 import os
 from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes,maize,wheat,MN_maize,MN_wheat
 from .avg import umm, closest_value, predict, mn
 from .models import Crop
 from keras.models import load_model
-from datetime import datetime, timedelta
-import numpy as np
-import matplotlib.pyplot as plt
-import base64
-from io import BytesIO
 from django.template.defaultfilters import safe
-from xhtml2pdf import pisa
-import io
 from django.utils.safestring import mark_safe
 import plotly.express as px
 

@@ -27,7 +27,11 @@ jobs:
         pip install -r agri/requirements.txt
     - name: Change directory
       run: cd agri
-      
+    - name: Debugging info
+      run: |
+        pwd
+        ls -l
+        ls -l agri
     - name: Run Tests
       run: |
         python manage.py test

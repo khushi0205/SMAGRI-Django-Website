@@ -1,1 +1,1 @@
-web: gunicorn agri.wsgi
+web: gunicorn agri.wsgi --timeout 500 --log-file -

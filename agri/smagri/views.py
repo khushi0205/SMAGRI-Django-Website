@@ -7,8 +7,9 @@ from .avg import umm, closest_value, predict, mn
 from .models import Crop
 from keras.models import load_model
 from django.template.defaultfilters import safe
-#from django.utils.safestring import mark_safe
-#import plotly.express as px
+from django.core.cache import cache
+from django.utils.safestring import mark_safe
+import plotly.express as px
 
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 
@@ -106,97 +107,115 @@ def User1(request):
 
 def User2(request):
     C = request.GET['Crop']
-    data = pd.DataFrame()
-    if C == 'Jowar':
-        model = load_model('Jowar_mn.h5')
-        data = predict(jowar, model)
-        MN = MN_jowar
-    if C == 'Gram':
-        model = load_model('Gram_mn.h5')
-        data = predict(gram, model)
-        MN = MN_gram
-    if C == 'Grapes':
-        model = load_model('Grapes_mn.h5')
-        data = predict(grapes, model)
-        MN = MN_grapes
-    if C == 'Ginger':
-        model = load_model('Ginger_mn.h5')
-        data = predict(ging, model)
-        MN = MN_ging
-    if C == 'Wheat':
-        model = load_model('Wheat_mn.h5')
-        data = predict(wheat, model)
-        MN = MN_wheat
-    if C == 'Maize':
-        model = load_model('Maize_mn.h5')
-        data = predict(maize, model)
-        MN = MN_maize
+    data_html = cache.get(f"data_html_{C}")
+    plotly_html = cache.get(f"plotly_html_{C}")
+    MN = cache.get(f"MN_{C}")
 
-    data_html = data.to_html(classes='table table-bordered hidden-row')
-    """ data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
-    data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
-    data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
+    if not data_html or not plotly_html or not MN:
+        data = pd.DataFrame()
+        if C == 'Jowar':
+            model = load_model('Jowar_mn.h5')
+            data = predict(jowar, model)
+            MN = MN_jowar
+        elif C == 'Gram':
+            model = load_model('Gram_mn.h5')
+            data = predict(gram, model)
+            MN = MN_gram
+        elif C == 'Grapes':
+            model = load_model('Grapes_mn.h5')
+            data = predict(grapes, model)
+            MN = MN_grapes
+        elif C == 'Ginger':
+            model = load_model('Ginger_mn.h5')
+            data = predict(ging, model)
+            MN = MN_ging
+        elif C == 'Wheat':
+            model = load_model('Wheat_mn.h5')
+            data = predict(wheat, model)
+            MN = MN_wheat
+        elif C == 'Maize':
+            model = load_model('Maize_mn.h5')
+            data = predict(maize, model)
+            MN = MN_maize
 
+        data_html = data.to_html(classes='table table-bordered hidden-row')
+        data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
+        data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
+        data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
 
-    data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
-    grouped_df = data.groupby('Quarter').mean().reset_index()
+        data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
+        grouped_df = data.groupby('Quarter').mean().reset_index()
 
-    # Plotting with Plotly Express
-    fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change', 'Modal Price Change'],
-                  labels={'value': 'Average Percentage Change'},
-                  title='Average Predicted Price Changes Every Three Months',
-                  markers=True, line_shape='linear')
+        # Plotting with Plotly Express
+        fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change', 'Modal Price Change'],
+                      labels={'value': 'Average Percentage Change'},
+                      title='Average Predicted Price Changes Every Three Months',
+                      markers=True, line_shape='linear')
 
-    fig.update_layout(width=1000, height=600)
-    # Convert the Plotly figure to HTML
-    plotly_html = fig.to_html(full_html=False) """
+        fig.update_layout(width=1000, height=600)
+        # Convert the Plotly figure to HTML
+        plotly_html = fig.to_html(full_html=False)
 
-    
-    return render(request, 'market_prices_res.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C }) 
+        # Cache the data
+        cache.set(f"data_html_{C}", data_html, timeout=None)  # No timeout means cache indefinitely
+        cache.set(f"plotly_html_{C}", plotly_html, timeout=None)
+        cache.set(f"MN_{C}", MN, timeout=None)
+
+    return render(request, 'market_prices_res.html', {'MN': MN, 'data': data_html, 'Crop': C, 'plotly_html': mark_safe(plotly_html)})
 
 def User3(request):
     C = request.GET['Crop']
     MNe = request.GET['MName']
-    data = pd.DataFrame()
-    if C == 'Jowar':
-        model = load_model('Jowar_mn.h5')
-        data = mn(jowar, model, MNe)
-        MN = MN_jowar
-    if C == 'Gram':
-        model = load_model('Gram_mn.h5')
-        data= mn(gram, model, MNe)
-        MN = MN_gram
-    if C == 'Grapes':
-        model = load_model('Grapes_mn.h5')
-        data = mn(grapes, model, MNe)
-        MN = MN_grapes
-    if C == 'Ginger':
-        model = load_model('Ginger_mn.h5')
-        data= mn(ging, model, MNe)
-        MN = MN_ging
-    if C == 'Wheat':
-        model = load_model('Wheat_mn.h5')
-        data= mn(wheat, model, MNe)
-        MN = MN_wheat
-    if C == 'Maize':
-        model = load_model('Maize_mn.h5')
-        data = mn(maize, model, MNe)
-        MN = MN_maize
+    data_html = cache.get(f"data_html_{C}_{MNe}")
+    plotly_html = cache.get(f"plotly_html_{C}_{MNe}")
+    MN = cache.get(f"MN_{C}")
 
-    data_html = data.to_html(classes='table table-bordered hidden-row')
+    if not data_html or not plotly_html or not MN:
+        data = pd.DataFrame()
+        if C == 'Jowar':
+            model = load_model('Jowar_mn.h5')
+            data = mn(jowar, model, MNe)
+            MN = MN_jowar
+        elif C == 'Gram':
+            model = load_model('Gram_mn.h5')
+            data = mn(gram, model, MNe)
+            MN = MN_gram
+        elif C == 'Grapes':
+            model = load_model('Grapes_mn.h5')
+            data = mn(grapes, model, MNe)
+            MN = MN_grapes
+        elif C == 'Ginger':
+            model = load_model('Ginger_mn.h5')
+            data = mn(ging, model, MNe)
+            MN = MN_ging
+        elif C == 'Wheat':
+            model = load_model('Wheat_mn.h5')
+            data = mn(wheat, model, MNe)
+            MN = MN_wheat
+        elif C == 'Maize':
+            model = load_model('Maize_mn.h5')
+            data = mn(maize, model, MNe)
+            MN = MN_maize
+
+        data_html = data.to_html(classes='table table-bordered hidden-row')
         
-    """ fig = px.line(data, x='Timestamp',
-                        y=['Predicted Min Price', 'Predicted Max Price', 'Predicted Modal Price'],
-                        labels={'value': 'Price (Rs./Quintal)'},
-                        title=f'Predicted Prices for {MNe}',
-                        markers=True, line_shape='linear')
-    
-    fig.update_layout(width=1000, height=600)
+        fig = px.line(data, x='Timestamp',
+                      y=['Predicted Min Price', 'Predicted Max Price', 'Predicted Modal Price'],
+                      labels={'value': 'Price (Rs./Quintal)'},
+                      title=f'Predicted Prices for {MNe}',
+                      markers=True, line_shape='linear')
+
+        fig.update_layout(width=1000, height=600)
 
         # Convert the Plotly figure to HTML
-    plotly_html = fig.to_html(full_html=False) """
+        plotly_html = fig.to_html(full_html=False)
 
-    return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C}) 
+        # Cache the data
+        cache.set(f"data_html_{C}_{MNe}", data_html, timeout=None)  # No timeout means cache indefinitely
+        cache.set(f"plotly_html_{C}_{MNe}", plotly_html, timeout=None)
+        cache.set(f"MN_{C}", MN, timeout=None)
+
+    return render(request, 'market_prices_result.html', {'MN': MN, 'data': data_html, 'Crop': C, 'plotly_html': mark_safe(plotly_html)}) 
     
     
 #class DownloadPDF(View):

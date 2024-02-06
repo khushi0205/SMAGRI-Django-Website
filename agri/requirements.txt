@@ -82,7 +82,7 @@ serverless-wsgi
 service-identity
 sgmllib3k
 six
-sklearn
+scikit-learn
 smart-open
 snaptime
 spacy

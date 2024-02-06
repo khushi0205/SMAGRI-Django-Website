@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-s3$)3jv!+$uo0)p-hyu&9ro1*%9-wnejms!k%ty5-4c#d^yro%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','smart-agri-rnyj.onrender.com']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
 
 # Application definition
 

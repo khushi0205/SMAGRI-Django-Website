@@ -7,8 +7,8 @@ from .avg import umm, closest_value, predict, mn
 from .models import Crop
 from keras.models import load_model
 from django.template.defaultfilters import safe
-from django.utils.safestring import mark_safe
-import plotly.express as px
+#from django.utils.safestring import mark_safe
+#import plotly.express as px
 
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 
@@ -133,7 +133,7 @@ def User2(request):
         MN = MN_maize
 
     data_html = data.to_html(classes='table table-bordered hidden-row')
-    data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
+    """ data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
     data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
     data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
 
@@ -149,10 +149,10 @@ def User2(request):
 
     fig.update_layout(width=1000, height=600)
     # Convert the Plotly figure to HTML
-    plotly_html = fig.to_html(full_html=False)
+    plotly_html = fig.to_html(full_html=False) """
 
     
-    return render(request, 'market_prices_res.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C , 'plotly_html': mark_safe(plotly_html)}) 
+    return render(request, 'market_prices_res.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C }) 
 
 def User3(request):
     C = request.GET['Crop']
@@ -185,7 +185,7 @@ def User3(request):
 
     data_html = data.to_html(classes='table table-bordered hidden-row')
         
-    fig = px.line(data, x='Timestamp',
+    """ fig = px.line(data, x='Timestamp',
                         y=['Predicted Min Price', 'Predicted Max Price', 'Predicted Modal Price'],
                         labels={'value': 'Price (Rs./Quintal)'},
                         title=f'Predicted Prices for {MNe}',
@@ -194,9 +194,9 @@ def User3(request):
     fig.update_layout(width=1000, height=600)
 
         # Convert the Plotly figure to HTML
-    plotly_html = fig.to_html(full_html=False)
+    plotly_html = fig.to_html(full_html=False) """
 
-    return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C, 'plotly_html': mark_safe(plotly_html) }) 
+    return render(request, 'market_prices_result.html',{ 'MN': MN, 'data': safe(data_html), 'Crop': C}) 
     
     
 #class DownloadPDF(View):

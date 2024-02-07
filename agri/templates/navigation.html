@@ -1,10 +1,6 @@
 {% load static %}
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<nav class="navbar navbar-expand-lg navbar-dark transparent" style="width: 100%; background: rgba(255, 255, 255, 0.25);
-box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
-border: 1px solid rgba(255, 255 , 255, 0.18);">
+<nav class="navbar navbar-expand-lg navbar-dark transparent" style="width: 100%; background: hs1(0 0% 100% / 0.1);background-color: green;">
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -15,6 +11,12 @@ border: 1px solid rgba(255, 255 , 255, 0.18);">
       <li class="nav-item">
         <a class="nav-link waves-effect waves-light" href="{% url 'Wel' %}" >Home</a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link waves-effect waves-light" href="{% url 'Res' %}" >Current Crop info</a>
+      </li> -->
+       <!-- <li class="nav-item">
+        <a class="nav-link waves-effect waves-light" href="{% url 'AltC' %}" >Crop Data</a>
+      </li>-->
       <li class="nav-item">
         <a class="nav-link waves-effect waves-light" href="{% url 'MP' %}" >Market Prices</a>
       </li>
@@ -112,11 +114,6 @@ nav .container .menu-btn{
     background: whitesmoke;
     color: black;
 
-}
-.navbar.navbar-dark .breadcrumb .nav-item .nav-link, .navbar.navbar-dark .navbar-nav .nav-item .nav-link {
-    color: black;
-    -webkit-transition: .35s;
-    transition: .35s;
 }
 
 @media (max-width: 750px){

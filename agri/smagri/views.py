@@ -52,14 +52,11 @@ def User1(request):
     request.session['Temp'] = request.GET['Temp']
   
     data = pd.DataFrame()
-    tab = []    
+    # Create tab list using list comprehension
+    tab = [request.session.get(key) for key in ['N', 'P', 'Po', 'pH', 'Rf', 'Temp']]
 
-    tab.append(request.session.get('N'))
-    tab.append(request.session.get('P'))
-    tab.append(request.session.get('Po'))
-    tab.append(request.session.get('pH'))
-    tab.append(request.session.get('Rf'))
-    tab.append(request.session.get('Temp'))
+    # Create alt list using list comprehension
+    alt = [Dist.get(D), Soil.get(S)] + tab
 
 
     if C == 'Selectanoption':
@@ -68,28 +65,31 @@ def User1(request):
         print(res)
         cotton_info = Crop.objects.get(name=res)
         print(cotton_info)
+        lis.append(F.get(res))
+        fert = model_fert.predict([lis])
+        res_fert = list(Fert.keys())[list(Fert.values()).index(fert)]
         for key in umm.keys():
             if res in key:
                 data[key] = umm[key]
         
         data['Your Crop'] = tab
-        new_data = closest_value(data, res)
-        data_html = new_data.to_html()
+        data_wocrop = closest_value(data, res)
+        data_html = data_wocrop.to_html()
         message = None
 
         if request.method == 'POST' and 'clear_session' in request.POST:
             request.session.flush()  # Clear session data
             message = "Session data has been cleared."
-        return render(request, 'user.html',{'res':res, 'info':cotton_info, 'data': data_html, 'msg': message})
+        return render(request, 'user.html',{'res':res,'res_fert':res_fert, 'info':cotton_info, 'data': data_html, 'msg': message})
     
     else:
+        #with crop
         lis.append(F.get(C))
-        print(lis)
         fert = model_fert.predict([lis])
         res = list(Fert.keys())[list(Fert.values()).index(fert)]
-        print(res)
-        cotton_info = Crop.objects.get(name=C)
-        print(cotton_info)
+        crop_lis = Crop.objects.get(name=C)
+        print(crop_lis)
+
         for key in umm.keys():
             if C in key:
                 data[key] = umm[key]
@@ -97,12 +97,28 @@ def User1(request):
         data['Your Crop'] = tab
         new_data = closest_value(data, C)
         data_html = new_data.to_html()
+
+        #without crop
+        crop = model_crop.predict([alt])
+        result = list(F.keys())[list(F.values()).index(crop)]
+        crop_res = Crop.objects.get(name=result)
+        alt.append(F.get(result))
+        fert = model_fert.predict([alt])
+        res_fert = list(Fert.keys())[list(Fert.values()).index(fert)]
+
+        for key in umm.keys():
+            if result in key:
+                data[key] = umm[key]
+        
+        data['Your Crop'] = tab
+        alt_data = closest_value(data, result)
+        data_alt_html = alt_data.to_html()
         message = None
 
         if request.method == 'POST' and 'clear_session' in request.POST:
             request.session.flush()  # Clear session data
             message = "Session data has been cleared."
-        return render(request, 'res.html',{'res':res, 'info':cotton_info,'data': data_html, 'msg': message})
+        return render(request, 'res.html',{'res_crop':res,'res_fert':res_fert, 'info':crop_lis, 'info_alt':crop_res, 'data': data_html, 'data_alt': data_alt_html, 'msg': message})
 
 
 def User2(request):

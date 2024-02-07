@@ -1,59 +1,103 @@
 {% extends 'base.html' %} {% block content %}
  {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
-</head>
-<body><br><br>
-    <div class="container">
-    <h1>The suitable crop for your soil is {{res}}</h1><br><br>
-    <h2> Crop:</h2><h3> {{ info.name | safe }}</h3><br>
-    <h2> Planting Season:</h2><h3> {{ info.planting_season | safe}}</h3><br>
-    <h2> Regions:</h2> <h3>{{ info.regions | safe}}</h3><br>
-    <h2> Cultivation Guide:</h2> <br><h3>{{ info.introduction | safe}} </h3><br><br>
-    <h3>The data to your crop is:</h3>
-        {{data | safe}}
-    
-    <br><br>
-
-<!-- <br><br>
-  <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="clear_session">Clear Session Data</button>
-    </form>
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %} -->
-
-    
-    </div>
-</body>
-</html>
-<style>
-    .container {
-        display: flex;
-        flex-direction: column; /* Set flex direction to column */
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh; /* Optional: If you want the container to take the full height of the viewport */
-    }
-
-    /* Optional: Add styling to the items if needed */
-    .container div {
-        margin: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
-    .container pre {
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Result</title>
+     <style>
+         /* Define styles for the container */
+         .container {
+             max-width: 60%;
+             margin: 0 auto;
+             padding: 20px;
+             display: flex;
+             flex-wrap: wrap; /* Allow items to wrap to the next row */
+             justify-content: space-between;
+             text-align: center;
+         }
+         .table-container td pre {
       font-family: "Roboto",sans-serif, monospace;
       white-space: pre-wrap; /* Preserve line breaks */
-      margin: 20px;
-      padding: 20px;
+            font-size: 0.9rem;
      
     }
-</style>
+         /* Define styles for the individual containers */
+         /* Define styles for the table container */
+         .table-container {
+             margin-top: 20px; /* Add margin between tables */
+         }
+         .table-container h2 {
+             text-align: center; /* Center-align heading */
+         }
+         .table-container table {
+             width: 100%; /* Make the table fill its container */
+             border-collapse: collapse;
+            table-layout: fixed; /* Fix the layout of the table */
+        }
+        .table-container td:first-child, .table-container th:first-child {
+            /* Adjust width of the first column (Crop) */
+            width: 10%; /* Adjust the percentage as needed */
+        }
+        .table-container td:nth-child(3), .table-container th:nth-child(3),
+        .table-container td:last-child, .table-container th:last-child {
+            /* Adjust width of the third and last columns (Regions and Cultivation Guide) */
+            width: 40%; /* Adjust the percentage as needed */
+        }
+        .table-container th, .table-container td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
+            width: auto; /* Allow columns to adjust their width dynamically */
+        }
+         .table-container th {
+             background-color: #f2f2f2;
+         }
+     </style>
+ </head>
+ <body>
+     <div class="container">
+         <!-- First container for the first set of data -->
+             <!-- Heading for the suitable fertilizer -->
+             <h1>Current Crop</h1>
+             <!-- First table for crop information -->
+             <div class="table-container">
+                 <h2>{{ info.name | safe }}</h2>
+                 <table >
+                     <tr>
+                         <td>Crop</td>
+                         <td>{{ info.name | safe }}</td>
+                     </tr>
+                     <tr>
+                         <td>Planting Season</td>
+                         <td>{{ info.planting_season | safe }}</td>
+                     </tr>
+                     <tr>
+                         <td>Regions</td>
+                         <td>{{ info.regions | safe }}</td>
+                     </tr>
+                     <tr>
+                         <td>Cultivation Guide</td>
+                         <td>{{ info.introduction | safe }}</td>
+                     </tr>
+                     <tr>
+                        <td>Suitable Fertilizer</td>
+                        <td>{{ res_fert }}</td>
+                    </tr>
+                 </table>
+             </div>
+             
+             <!-- Second table for crop data -->
+             <div class="table-container">
+                 <h2>Data for Your Crop</h2>
+                 {{ data | safe }}
+             </div>
+         </div>
+     </div>
+ </body>
+ </html>
+ 
 {% endblock %}

@@ -1,42 +1,82 @@
-{% extends 'base.html' %} {% block content %}
- {% load static %}
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Agri Website</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="container">
-    <h1>Welcome to Smart Agri</h1>
-    <hr>
-
-<a href="{% url 'Welcome' %}" ><h1> Find suitable crop and fertilizer</h1></a>
-<a href="{% url 'MP' %}" ><h1> Market Price</h1></a>
-
-<!-- <a href="{% url 'Res' %}" ><h1>Current Crop Yield</h1></a> -->
-<!-- <a href="{% url 'AltC' %}" ><h1>Crop Data</h1></a> -->
-</div>
+        <h1>Welcome to Smart Agri</h1>
+        <hr>
+        <h2>Our Services</h2>
+        <div class="services">
+            <div class="service">
+                <a href="{% url 'MP' %}">
+                    <h3>Market Prices</h3>
+                    <p>Get the latest market prices for agricultural products.</p>
+                </a>
+            </div>
+            <div class="service">
+                <a href="{% url 'Welcome' %}">
+                    <h3>Crop and Fertilizer Guide</h3>
+                    <p>Learn about the best practices for crop cultivation and fertilizer usage.</p>
+                </a>
+            </div>
+            <div class="service">
+                <a href="#">
+                    <h3>Soil Testing</h3>
+                    <p>Find out about our soil testing services to optimize your crop yield.</p>
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-<style>
-    .container {
-        display: flex;
-        flex-direction: column; /* Set flex direction to column */
-        justify-content: center;
-        align-items: center;
-        height: 75vh; /* Optional: If you want the container to take the full height of the viewport */
-    }
+<style>.container {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
 
-    /* Optional: Add styling to the items if needed */
-    .container div {
-        margin: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
+.services {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.service {
+    width: calc(33.33% - 20px);
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background-color: #fff; /* Set a white background color */
+    border: 2px solid #79a35f; /* Add a border with a green color */
+}
+
+.service:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.service h3 {
+    color: #79a35f; /* Set heading color to a green shade */
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.service p {
+    color: #666;
+    font-size: 16px;
+}
+
 </style>
 {% endblock %}
-

@@ -58,8 +58,11 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    background-color: #fff; /* Set a white background color */
-    border: 2px solid #79a35f; /* Add a border with a green color */
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255 , 255, 0.18);
 }
 
 .service:hover {
@@ -68,7 +71,7 @@
 }
 
 .service h3 {
-    color: #79a35f; /* Set heading color to a green shade */
+    color: darkgreen; /* Set heading color to a green shade */
     font-size: 20px;
     margin-bottom: 10px;
     font-weight: 400;

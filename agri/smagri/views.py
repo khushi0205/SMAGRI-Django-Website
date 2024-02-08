@@ -157,13 +157,13 @@ def User2(request):
         data_html = data.to_html(classes='table table-bordered hidden-row')
         data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
         data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
-        data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
+        #data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
 
         data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
         grouped_df = data.groupby('Quarter').mean().reset_index()
 
         # Plotting with Plotly Express
-        fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change', 'Modal Price Change'],
+        fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change'],
                       labels={'value': 'Average Percentage Change'},
                       title='Average Predicted Price Changes Every Three Months',
                       markers=True, line_shape='linear')
@@ -216,7 +216,7 @@ def User3(request):
         data_html = data.to_html(classes='table table-bordered hidden-row')
         
         fig = px.line(data, x='Timestamp',
-                      y=['Predicted Min Price', 'Predicted Max Price', 'Predicted Modal Price'],
+                      y=['Predicted Min Price', 'Predicted Max Price'],
                       labels={'value': 'Price (Rs./Quintal)'},
                       title=f'Predicted Prices for {MNe}',
                       markers=True, line_shape='linear')

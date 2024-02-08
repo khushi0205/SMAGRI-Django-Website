@@ -75,7 +75,10 @@
          <div class="container1">
              <!-- Heading for the suitable fertilizer -->
              <h1>Current Crop</h1>
-             
+             <div class="table-container">
+                <h2>Data for Your Crop</h2>
+                {{ data | safe }}
+            </div>
              <!-- First table for crop information -->
              <div class="table-container">
                  <h2>{{ info.name | safe }}</h2>
@@ -104,10 +107,7 @@
              </div>
              
              <!-- Second table for crop data -->
-             <div class="table-container">
-                 <h2>Data for Your Crop</h2>
-                 {{ data | safe }}
-             </div>
+             
          </div>
          
          <!-- Second container for the second set of data -->
@@ -116,6 +116,10 @@
              <h1>Recommended Crop</h1>
              
              <!-- First table for crop information -->
+             <div class="table-container">
+                <h2>Data for Recommended Crop</h2>
+                {{ data_alt | safe }}
+            </div>
              <div class="table-container">
                  <h2>{{ info_alt.name | safe }}</h2>
                  <table >
@@ -143,10 +147,7 @@
              </div>
              
              <!-- Second table for crop data -->
-             <div class="table-container">
-                 <h2>Data for Your Crop</h2>
-                 {{ data_alt | safe }}
-             </div>
+             
          </div>
      </div>
  </body>

@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Read NPK</title>
+    </head>
+    <body>
+        <br><h3>Data Received</h3>
+        <div class="container">
+          <h1>Insert Info</h1>
+          <hr>
+          
+          <form action="{% url 'User1' %}">
+              {% csrf_token %}
+              District Name: <select name="District_Name" id="DN" method="POST">
+                  <option value="Kolhapur" >Kolhapur</option>
+                  <option value="Solapur" >Solapur</option>
+                  <option value="Satara">Satara</option>
+                  <option value="Sangli">Sangli</option>
+                  <option value="Pune" >Pune</option>
+                  <option value="" selected >Select an option</option>
+                </select><br><br>
+                Soil Color: <select name="Soil_Color" id="SC" method="POST">
+                  <option value="Black" >Black</option>
+                  <option value="Red">Red</option>
+                  <option value="MediumBrown">Medium Brown</option>
+                  <option value="DarkBrown" >Dark Brown</option>
+                  <option value="LightBrown" >Light Brown</option>
+                  <option value="ReddishBrown" >Reddish Brown</option>
+                  <option value="" selected >Select an option</option>
+      
+                </select><br><br>
+                N: <input type="text" required name="N" value="{{N}}"><br><br>
+                P: <input type="text" required name="P" value="{{P}}"><br><br>
+                K: <input type="text" required name="Po" value="{{K}}"><br><br>
+              pH: <input type="text" required name="pH"><br><br>
+              Rainfall: <input type="text" required name="Rf"><br><br>
+              Temp: <input type="text" required name="Temp"><br><br>
+              Crop <h12>(Optional)</h12> : <select name="Crop" id="C" method="POST">
+                <option value="Sugarcane" >Sugarcane</option>
+                <option value="Jowar">Jowar</option>
+                <option value="Cotton">Cotton</option>
+                <option value="Rice" >Rice</option>
+                <option value="Wheat" >Wheat</option>
+                <option value="Groundnut" >Groundnut</option>
+                <option value="Maize" >Maize</option>
+                <option value="Tur" >Tur</option>
+                <option value="Urad" >Urad</option>
+                <option value="Moong" >Moong</option>
+                <option value="Gram" >Gram</option>
+                <option value="Masoor" >Masoor</option>
+                <option value="Soybean" >Soybean</option>
+                <option value="Ginger" >Ginger</option>
+                <option value="Turmeric" >Turmeric</option>
+                <option value="Grapes" >Grapes</option>
+                <option value="Selectanoption" selected >Select an option</option>
+              </select><br><br>
+          <input type="submit" name="" value="submit">
+          </form>
+         </div>
+      </body>
+      </html>
+      <style>
+        .container {
+            display: flex;
+            flex-direction: column; /* Set flex direction to column */
+            justify-content: center;
+            align-items: center;
+            height: 85vh; /* Optional: If you want the container to take the full height of the viewport */
+            position: relative;
+          top: 28px;
+          border: 2px solid #79a35f;
+          color: green;
+          font-weight: 400;
+          width: 430px;
+          border-radius: 20px;
+        }
+      
+        /* Optional: Add styling to the items if needed */
+        .container div {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+      
+      
+      input[type="submit"] {
+        background-color: rgb(255, 60, 0);
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      
+      /* Hover effect for submit button */
+      input[type="submit"]:hover {
+        background-color: #f122a2;
+      }
+      </style>
+{% endblock %}

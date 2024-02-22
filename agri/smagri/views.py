@@ -1,18 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 import joblib
 import pandas as pd
 import os
 from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes,maize,wheat,MN_maize,MN_wheat
-from .avg import umm, closest_value, predict, mn
+from .avg import umm, closest_value, predict, mn, read_sensor_and_send_data
 from .models import Crop
 from keras.models import load_model
 from django.template.defaultfilters import safe
 from django.core.cache import cache
 from django.utils.safestring import mark_safe
 import plotly.express as px
-
+from serial import Serial
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import subprocess
+import logging
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
-
+logger = logging.getLogger(__name__)
 def Wel(request):
     return render(request, 'index2.html')
 def Welcome(request):
@@ -232,58 +236,18 @@ def User3(request):
         cache.set(f"MN_{C}", MN, timeout=None)
 
     return render(request, 'market_prices_result.html', {'MN': MN, 'data': data_html, 'Crop': C, 'plotly_html': mark_safe(plotly_html)}) 
+
+
+@csrf_exempt
+def read_npk_sensor(request):
+    # Execute the Python script to read sensor data
+    sensor_data, N, P, K = read_sensor_and_send_data()
+    print(sensor_data)
     
-    
-#class DownloadPDF(View):
-#    def get(self, request, *args, **kwargs):
-#        C = request.GET.get('Crop', '')
-#        MNe = request.GET.get('MName', '')
-#        data = pd.DataFrame()
-#        MN = []
-#        data_html = ''
-#
-#        if C == 'Jowar':
-#            model = load_model('Jowar_mn.h5')
-#            data, fps = predict(jowar, model)
-#            MN = MN_jowar
-#        if C == 'Gram':
-#            model = load_model('Gram_mn.h5')
-#            data, fps = predict(gram, model)
-#            MN = MN_gram
-#        if C == 'Grapes':
-#            model = load_model('Grapes_mn.h5')
-#            data, fps = predict(grapes, model)
-#            MN = MN_grapes
-#        if C == 'Ginger':
-#            model = load_model('Ginger_mn.h5')
-#            data, fps = predict(ging, model)
-#            MN = MN_ging
-#        # Similar code for other crops...
-#
-#        if MNe in data['Market_Name'].unique():
-#            # Filter the DataFrame for the specific market
-#            market_data = data[data['Market_Name'] == MNe]
-#            data_html = market_data.to_html(classes='table table-bordered hidden-row')
+    # Process sensor data as needed
+    # For example, save it to the database or perform other actions
 
-        # Generate PDF directly from HTML content
-#       pdf_data = f"""
-#        <html>
-#        <head>
-#            <title>Predicted Prices for {MNe}</title>
-#        </head>
-#        <body>
-#            {data_html}
-#        </body>
-#        </html>
-#        """
-#        response = HttpResponse(content_type='application/pdf')
-#        response['Content-Disposition'] = f'attachment; filename="{C}_{MNe}_Predicted_Prices.pdf"'
-#        pisa_status = pisa.CreatePDF(pdf_data, dest=response)
-#        if not pisa_status.err:
-#            return response
-
-#        return HttpResponse('Error generating PDF', status=500)
-
+    return render(request, 'read_val.html', {'N': N, 'P': P, 'K': K}) 
 
 """
 def Alt_Crop(request):

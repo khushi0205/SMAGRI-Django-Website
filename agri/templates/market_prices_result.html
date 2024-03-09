@@ -9,32 +9,37 @@
     <title>Result</title>
 </head>
 <body >
-    <div class="container">
-      <h2 style="margin-top: 10px;">Select Crop</h2>
-      <br>
-      
-      <form action="{% url 'MP_result' %}">
-          {% csrf_token %}
-          Crop : <select name="Crop" id="C" method="POST">
-            <option value="Jowar">Jowar</option>
-            <option value="Gram" >Gram</option>
-            <option value="Ginger" >Ginger</option>
-            <option value="Grapes" >Grapes</option>
-            <option value="Maize" >Maize</option>
-            <option value="Wheat" >Wheat</option>
+  <div class="background">
+    <!-- Content here will have the background image -->
+</div>
+<div class="container">
+  <h2 style="color: white; font-weight: 800;margin-top: 20px;">Select Crop</h2>
+  <br>
+  
+  <form action="{% url 'MP_result' %}">
+      {% csrf_token %}
+      <span style="color: white; font-size: 18px; font-weight: 700;">
+      Crop :</span> <select name="Crop" id="C" method="POST">
+        <option value="Jowar">Jowar</option>
+        <option value="Gram" >Gram</option>
+        <option value="Ginger" >Ginger</option>
+        <option value="Grapes" >Grapes</option>
+        <option value="Maize" >Maize</option>
+        <option value="Wheat" >Wheat</option>
+        <option value={{Crop}} selected >{{Crop}}</option>
+      </select>
+      <span style="color: white; font-size: 18px; font-weight: 700;">
+      Market Name :</span> <select name="MName" id="MName" method="POST">
+        {% for item in MN %}
+          <option value="{{item}}">{{item}}</option>
+          {% endfor %}
+          <option value="Selectanoption" selected>Select Market Name</option>
 
-            <option value={{Crop}} selected >{{Crop}}</option>
-          </select>
-          Market Name : <select name="MName" id="MName" method="POST">
-            {% for item in MN %}
-              <option value="{{item}}">{{item}}</option>
-              {% endfor %}
-              <option value="Selectanoption" selected>Select Market Name</option>
-
-          </select>
-      <input type="submit" name="" value="submit">
+      </select>
+    </span>
+  <input type="submit" name="" value="submit">
       </form>
-      <a href="{% url 'MP' %} "  onclick="history.go(-1);" style="margin-top: 25px;text-decoration: underline;color: black;">&larr; Go Back</a>
+      <a href="{% url 'MP' %} "  onclick="history.go(-1);" style="margin-top: 25px;text-decoration: underline;color: white;">&larr; Go Back</a>
       </div>
       <br> <br>
       <div class="container1">
@@ -48,20 +53,37 @@
      <br><br>
   </body>
   </html>
+
+
+
+
   <style>
+    .background {
+    background-image: url('/static/images/editbg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* Set the height of the background section to fill the viewport */
+    height: 100vh;
+    /* Ensure that the background section stays fixed while the content scrolls */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1; /* Ensure that the background stays behind the content */
+}
     .container {
         display: flex;
         flex-direction: column; /* Set flex direction to column */
         justify-content: left;
         align-items: normal;
-        height: 25vh; /* Optional: If you want the container to take the full height of the viewport */
+        height: 30vh; /* Optional: If you want the container to take the full height of the viewport */
         position: relative;
-      top: 28px;
-      background-color: #fff; /* Set a white background color */
-    border: 2px solid #79a35f;
-    color: #79a35f;
-      width: 90%;
-      border-radius: 20px;
+      top: 0px;
+      background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255 , 255, 0.18);
     }
   
     /* Optional: Add styling to the items if needed */
@@ -77,7 +99,44 @@
         justify-content: center;
         width: 80%;
         margin: 0 auto;
+        align-items: center;
+
+   
     }
+    .table-wrapper{
+     /* Remove any default padding */
+    position: relative;
+    width: 85%; /* Make the table wrapper span the full width of the page */
+    height: 506px; /* Allow the table wrapper's height to adjust based on content */
+    overflow-y: auto; 
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255 , 255, 0.18);
+    align-self: center;
+    }
+    .table-wrapper th {
+            background-color: #f2f2f2;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Define data row styles */
+        .table-wrapper td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Define even row styles */
+        .table-wrapper tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-wrapper tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
   input[type="submit"] {
     background-color: rgb(255, 60, 0);
     color: white;

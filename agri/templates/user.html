@@ -17,7 +17,21 @@
              flex-wrap: wrap; /* Allow items to wrap to the next row */
              justify-content: space-between;
              text-align: center;
+             background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255 , 255, 0.18);
          }
+         .main {
+    width: 85%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
          .table-container td pre {
       font-family: "Roboto",sans-serif, monospace;
       white-space: pre-wrap; /* Preserve line breaks */
@@ -62,7 +76,9 @@
      <div class="container">
          <!-- First container for the first set of data -->
              <!-- Heading for the suitable fertilizer -->
-             <h1>Current Crop</h1>
+             <div class="main">
+             <h1 style="color: rgb(72, 12, 12); font-weight: 600;">Current Crop </h1>
+
              <!-- First table for crop information -->
              <div class="table-container">
                  <h2>{{ info.name | safe }}</h2>
@@ -95,6 +111,7 @@
                  <h2>Data for Your Crop</h2>
                  {{ data | safe }}
              </div>
+         </div>
          </div>
      </div>
  </body>

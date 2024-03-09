@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;&display=swap');
+
+ *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Poppins",sans-serif;
+ }
+
+
+body{
+    min-height: 100vh;
+    min-width: 400px;
+    overflow: hidden;
+    /* background: #fe6c6d; */
+    background-image:linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+}
+.home-content p{
+   font-size: 40px;
+   font-weight: 20px;
+   line-height: 20px;
+}
+
+
+header
+{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 110px;
+    padding: 0 5%;
+    color: #fff;
+    font-size: 18px;
+}
+
+header .logo
+{
+    color: #fff;
+    font-size: 2.5rem;
+    text-decoration: uppercase;
+    font-weight: 700;
+    margin-right: auto;
+}
+
+header nav
+{
+    display: flex;
+    align-items: center;
+}
+header nav .menu
+{
+    display: flex;
+    align-items: center;
+}
+
+header nav .menu li a{
+    cursor:pointer;
+      position:relative;
+      padding:10px 20px;
+      /* background-image:linear-gradient(rgba(0  , 0, 71, 0.7), rgba(0, 0, 0, 0.7)); */
+      font: size 1.4rem;;
+      margin-left: 40px;
+      border-top-right-radius:10px;
+      border-bottom-left-radius:10px;
+      transition:all 1s;
+      color: white;
+    &:after,&:before{
+        content:" ";
+        width:10px;
+        height:10px;
+        position:absolute;
+        border :0px solid #fdfdfd;
+        transition:all 1s;
+        }
+      &:after{
+        top:-1px;
+        left:-1px;
+        border-top:5px solid rgb(251, 251, 251);
+        border-left:5px solid rgb(255, 255, 255);
+      }
+      &:before{
+        bottom:-1px;
+        right:-1px;
+        border-bottom:5px solid rgb(255, 255, 255);
+        border-right:5px solid rgb(252, 252, 252);
+      }
+      &:hover{
+        border-top-right-radius:0px;
+      border-bottom-left-radius:0px;
+        /* //background:rgba(0,0,0,.5); */
+        /* // color:white; */
+        &:before,&:after{
+          
+          width:100%;
+          height:100%;
+          /* // border-color:white; */
+        }
+      }
+    }
+
+header nav .menu li a:hover 
+{
+    color: #fa6c6d;
+}
+
+header nav #toggle
+{
+    font-size: 1.3rem;
+    margin-left: 80px;
+    cursor: pointer;
+
+}
+
+
+
+
+
+
+.home
+{
+    padding: 0 5%;
+    text-align: center; 
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+
+.home h1
+{
+    margin-top: 50px;
+    text-transform: uppercase;
+    font-size: 3.25rem;
+    font-weight: 600;
+}
+
+.home p
+{
+    font-size: 0.85rem;
+    width: 600px;
+    font-weight: 300;
+    margin: -5px auto 25px;
+    text-align: center;
+    
+}
+
+.home button
+{
+    background: #d6cee0;
+    padding: 0.3rem 1.5rem;
+    outline: none;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease,border-color 0.3s ease,color 0.3s ease;
+
+}
+.main{
+    /* background-image:linear-gradient(rgba(225, 222, 62, 0.7), rgba(0, 0, 0, 0.7)); */
+    height: 100vh;
+    background-image:linear-gradient(rgba(0, 0, 0, 0.537), rgba(0, 0, 0, 0.575));
+}
+
+
+.home button:hover
+{
+    background: linear-gradient(to right, #aaacbc, #6b208b);
+    transform: scale(1.05);
+}
+
+
+.home .images .img-1,
+.home .images .img-2,
+.home .images .img-3,
+.home .images .img-4,
+.home .images .img-5,
+.home .images .img-6,
+.home .images .img-7
+{
+    width : 100%;
+    height: 100vh;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -10;
+     
+}
+/* sky */
+.home .images .img-1{
+    background: url('/static/images/img3.png');
+    background-position: center;
+    background-size: cover;
+}
+
+/* birds  */
+.home .images .img-2{
+    background: url('/static/images/img4.png');
+    background-position: center;
+    background-size: cover;
+}
+/* sun glare */
+
+.home .images .img-3{
+    background: url('/static/images/img5.png');
+    background-position: center;
+    background-size: cover;
+}
+
+/* tree  */
+.home .images .img-4{
+    background: url('/static/images/img2.png');
+    background-position: center;
+    background-size: cover;
+}
+
+/* grass */
+.home .images .img-5{
+    background: url('/static/images/img1.png');
+    background-position: center;
+    background-size: cover;
+}
+/* .home .images .img-6{
+    background: url(Images/img2.png);
+    background-position: center;
+    background-size: cover;
+}
+.home .images .img-7{
+    background: url(Images/img1.png);
+    background-position: center;
+    background-size: cover;
+} */

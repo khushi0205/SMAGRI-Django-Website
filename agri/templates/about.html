@@ -1,0 +1,62 @@
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" >
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>About</h1>
+                <p style="font-size: 18px; line-height: 1.5; font-weight: 500;">Crops are vital for sustaining life, economies, and ecosystems globally. They provide essential nutrition, support livelihoods, and contribute to cultural traditions. Beyond food, crops impact biodiversity, soil health, and environmental sustainability. Recognizing their importance is key to addressing global challenges such as food security and climate change while fostering socio-economic development.</p>
+            </div>
+            <div class="col">
+                <div class="card card1"
+                    onclick="openModal('Grapes Cultivation', 'Grape cultivation holds significant importance due to its multifaceted contributions to agriculture, economy, and health. It serves as a vital source of income for farmers, supporting local economies through exports and providing raw materials for various industries such as winemaking and food production. Moreover, grapes offer numerous health benefits through consumption, containing antioxidants and other nutrients. Additionally, grape cultivation plays a crucial role in preserving biodiversity and promoting sustainable agricultural practices worldwide.','/static/images/grapesimage.jpg')">
+                    <h5>Grapes Cultivation</h5>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="card card2"
+                    onclick="openModal('Wheat Cultivation', 'Wheat cultivation is pivotal for global food security, serving as a staple crop for numerous nations. Its significance extends beyond sustenance, as it also bolsters economies, providing livelihoods for millions involved in its production and distribution. Furthermore, wheat farming practices impact soil health and biodiversity, underscoring the necessity for sustainable cultivation methods to safeguard agricultural productivity and environmental integrity. Sustainable practices are essential for its long-term viability and environmental resilience.', '/static/images/wheatimage.jpg')">
+                    <h5>Wheat Cultivation</h5>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="card card3"
+                    onclick="openModal('Sugercane Cultivation', 'Sugarcane cultivation is fundamental to various industries, providing raw material for sugar, ethanol, and biofuel production. It sustains livelihoods, supports local economies, and contributes to renewable energy initiatives. Additionally, sugarcane farming practices influence soil health and water management, emphasizing the need for sustainable approaches to mitigate environmental impact and ensure long-term agricultural sustainability.Sugarcane cultivation, vital for industries, sustains economies globally.', '/static/images/sugercane.jpg')">
+                    <h5>Sugercane Cultivation</h5>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="card card4"
+                    onclick="openModal('Rice Cultivation', 'Rice cultivation is indispensable for ensuring food security worldwide, serving as a primary source of sustenance for billions of people. Beyond nourishment, it is a cornerstone of rural economies, providing employment and income opportunities for countless individuals. Moreover, rice farming practices have profound implications for water resource management and biodiversity conservation, emphasizing the critical need for sustainable approaches to ensure long-term agricultural viability and environmental health.', '/static/images/riceimage.jpg')">
+                    <h5>Rice Cultivation</h5>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-text">
+                <h2 id="modal-title">Title</h2>
+                <p id="modal-description">Description</p>
+                <button onclick="closeModal()">Back</button>
+            </div>
+            <img src="" alt="Image" id="modal-image">
+        </div>
+    </div>
+
+    <script src="/static/Js/scripts.js"></script>
+</body>
+
+
+{% endblock %}

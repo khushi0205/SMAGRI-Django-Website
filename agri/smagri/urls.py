@@ -11,7 +11,9 @@ urlpatterns = [
     path('MarketPriceResult/', views.User3, name='MP_result'),
     #path('Alternative_res/', views.Alt_Crop, name='AltCrop'),
     path('Alternative/', views.Alt_Res, name='AltC'),
-    path('Read_NPK/', views.read_npk_sensor, name='NPK')
+    path('Read_NPK/', views.read_npk_sensor, name='NPK'),
+    path('About/', views.About, name='About'),
+
     #path('download_pdf/', DownloadPDF.as_view(), name='download_pdf')
 
 

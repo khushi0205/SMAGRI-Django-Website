@@ -213,7 +213,7 @@ def read_sensor_and_send_data():
     ser = serial.Serial('COM3', 9600)  # Change 'COMX' to your serial port
     
     # Define Django endpoint
-    url = 'https://mj6wmprx-8000.inc1.devtunnels.ms/Read_NPK/'
+    url = 'http://127.0.0.1:8000/Read_NPK/'
     
     # Read data from serial
     data = ser.readline().decode().strip()

@@ -10,10 +10,7 @@ from django.template.defaultfilters import safe
 from django.core.cache import cache
 from django.utils.safestring import mark_safe
 import plotly.express as px
-from serial import Serial
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import subprocess
 import logging
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 logger = logging.getLogger(__name__)
@@ -27,6 +24,8 @@ def Alt_Res(request):
     return render(request, 'alter.html')
 def MarkP(request):
     return render(request, 'market_prices.html')
+def About(request):
+    return render(request, 'about.html')
 
 
 def User1(request):
@@ -37,6 +36,7 @@ def User1(request):
     S = request.GET['Soil_Color']
     lis.append(Dist.get(D))
     lis.append(Soil.get(S))
+    C = request.GET['Crop']
     lis.append(request.GET['N'])
     lis.append(request.GET['P'])
     lis.append(request.GET['Po'])
@@ -45,7 +45,7 @@ def User1(request):
     lis.append(request.GET['Temp'])
 
 
-    C = request.GET['Crop']
+
 
 
     request.session['N'] = request.GET['N']
@@ -240,15 +240,14 @@ def User3(request):
 
 @csrf_exempt
 def read_npk_sensor(request):
-    # Execute the Python script to read sensor data
+
     sensor_data, N, P, K = read_sensor_and_send_data()
     print(sensor_data)
+
+    return render(request, 'read_val.html', {'N': N, 'P': P, 'K': K})  
+
+
     
-    # Process sensor data as needed
-    # For example, save it to the database or perform other actions
-
-    return render(request, 'read_val.html', {'N': N, 'P': P, 'K': K}) 
-
 """
 def Alt_Crop(request):
     C = request.GET['Crop']

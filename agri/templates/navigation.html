@@ -1,127 +1,109 @@
 {% load static %}
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<nav class="navbar navbar-expand-lg navbar-dark transparent" style="width: 100%; background: hs1(0 0% 100% / 0.1);background-color: green;">
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link waves-effect waves-light" href="{% url 'Wel' %}" >Home</a>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link waves-effect waves-light" href="{% url 'Res' %}" >Current Crop info</a>
-      </li> -->
-       <!-- <li class="nav-item">
-        <a class="nav-link waves-effect waves-light" href="{% url 'AltC' %}" >Crop Data</a>
-      </li>-->
-      <li class="nav-item">
-        <a class="nav-link waves-effect waves-light" href="{% url 'MP' %}" >Market Prices</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link waves-effect waves-light" href="{% url 'Welcome' %}" >Crop & Fertilizer</a>
-      </li>
-    </ul>
-
-  </div>
-  <div class="menu">
-                    <ul class ="social media" >
-                        <li>
-                            <a href="#" class="media-icon">
-                                <i class="fab fa-instagram" style="color: white;"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="media-icon">
-                                <i class="fab fa-google" style="color: white;"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="media-icon">
-                                <i class="fab fa-github" style="color: white;"></i>
-                            </a>
-                        </li>
-
-                        <li >
-                            <a href="#" class="media-icon">
-                                <i class="fab fa-telegram" style="color: white;"></i>
-                            </a>
-                        </li>
+<header>
+    <div class="logo">
+       
+    </div>
+    <nav>
+        <ul class="menu">
+            <li class="active"><a href="{% url 'Wel' %}">Home</a></li>
+            <li><a href="{% url 'Welcome' %}">Crop and Fertilizer</a></li>
+            <li><a href="{% url 'MP' %}">Market Price</a></li>
+            <li><a href="{% url 'NPK' %}">Soil Testing</a></li>
+            <li><a href="{% url 'About' %}">About Us</a></li>
 
 
-                    </ul>
-
-  </div>
-</nav>
+        </ul>
+        <i class="fa-solid fa-bars" id="toggle"></i>
+    </nav>
+</header>
     <style>
-      .navbar{
-        flex-wrap: unset;
-      }
-
-
-nav{
-    z-index: 99;
-    position: relative;
-    transition: 0.4s;
-}
-
-nav a{
-    text-decoration: none;
-    color: #1f1f1f;
-}
-
-nav .container{
-    max-width: 1150px;
-    padding: 1em 2em;
-    margin: 0 auto;
-}
-
-nav .menu{
+header
+{
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-sizing: content-box;
+    justify-content: flex-end;
+    width: 100%;
+    height: 110px;
+    padding: 0 5%;
+    color: #fff;
+    font-size: 18px;
 }
 
-nav ul{
-    list-style-type: none;
-    padding: 0;
-    display: inline-block;
+header .logo
+{
+    color: #fff;
+    font-size: 2.5rem;
+    text-decoration: uppercase;
+    font-weight: 700;
+    margin-right: auto;
 }
 
-nav ul li{
-    display: inline-block;
-    margin: 0 0.5em;
-
+header nav
+{
+    display: flex;
+    align-items: center;
+}
+header nav .menu
+{
+    display: flex;
+    align-items: center;
 }
 
-nav ul a{
-    font-size: 0.8em;
-    text-transform: uppercase;
+header nav .menu li a{
+    cursor:pointer;
+      position:relative;
+      padding:10px 20px;
+      /* background-image:linear-gradient(rgba(0  , 0, 71, 0.7), rgba(0, 0, 0, 0.7)); */
+      font: size 1.4rem;;
+      margin-left: 40px;
+      border-top-right-radius:10px;
+      border-bottom-left-radius:10px;
+      transition:all 1s;
+      color: white;
+    &:after,&:before{
+        content:" ";
+        width:10px;
+        height:10px;
+        position:absolute;
+        border :0px solid #fdfdfd;
+        transition:all 1s;
+        }
+      &:after{
+        top:-1px;
+        left:-1px;
+        border-top:5px solid rgb(251, 251, 251);
+        border-left:5px solid rgb(255, 255, 255);
+      }
+      &:before{
+        bottom:-1px;
+        right:-1px;
+        border-bottom:5px solid rgb(255, 255, 255);
+        border-right:5px solid rgb(252, 252, 252);
+      }
+      &:hover{
+        border-top-right-radius:0px;
+      border-bottom-left-radius:0px;
+        /* //background:rgba(0,0,0,.5); */
+        /* // color:white; */
+        &:before,&:after{
+          
+          width:100%;
+          height:100%;
+          /* // border-color:white; */
+        }
+      }
+    }
+
+header nav .menu li a:hover 
+{
+    color: #fa6c6d;
 }
 
-nav .container .menu-btn{
-    display: none;
-}
-
-.social-media a{
-    font-size: 1em;
-}
-
-.navbar.navbar-dark .breadcrumb .nav-item .nav-link:hover, .navbar.navbar-dark .navbar-nav .nav-item .nav-link:hover {
-    background: whitesmoke;
-    color: black;
+header nav #toggle
+{
+    font-size: 1.3rem;
+    margin-left: 80px;
+    cursor: pointer;
 
 }
-
-@media (max-width: 750px){
-.navbar.navbar-dark .breadcrumb .nav-item .nav-link:hover, .navbar.navbar-dark .navbar-nav .nav-item .nav-link:hover {
-    background: transparent;
-    color: white;
-
-}
-}
-
     </style>

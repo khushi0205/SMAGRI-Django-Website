@@ -28,7 +28,7 @@
                     <li><a href="{% url 'Welcome' %}">Crop and Fertilizer</a></li>
                     <li><a href="{% url 'MP' %}">Market Price</a></li>
                     <li><a href="{% url 'NPK' %}">Soil Testing</a></li>
-                    <li><a href="{% url 'About' %}">About Us</a></li>
+                  <!-- <li><a href="{% url 'About' %}">About Us</a></li>--> 
     
                 </ul>
                 <i class="fa-solid fa-bars" id="toggle"></i>
@@ -42,25 +42,13 @@
                 <button ><a href="{% url 'MP' %}">Check Market Price</a></button>
                 <button ><a href="{% url 'NPK' %}">Test Your Soil</a></button>
             </div>
-            <div class="images">
-                <div class="img-1"></div>
-                <div class="img-3"></div>
-                <div class="img-4"></div>
-                <div class="img-5"></div>
-                <div class="img-6"></div>
-                <div class="img-7"></div>
-            </div>
         </section>
     
     </div>
     
     <script>
 
-        gsap.from('.img-1', 1.2, {opacity:0, y:-150, delay:0.5}) 
-        gsap.from('.img-2', 1.2, {opacity:0, y:150, delay:3})  
-        gsap.from('.img-3', 1.2, {opacity:0, y:-150, delay:2.6})  
-        gsap.from('.img-4', 1.2, {opacity:0, y:150, delay:1.5})   
-        gsap.from('.img-5', 1.2, {opacity:0, y:150, delay:0.5})  
+        
         // gsap.from('.img-1', 1.2, {opacity:0, y:-150, delay:0.5})  
         // gsap.from('.img-1', 1.2, {opacity:0, y:-150, delay:0.5})  
         gsap.from('h1', 1.2, {opacity:0, y:-80, delay:3.4})  

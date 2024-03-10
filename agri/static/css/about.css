@@ -11,13 +11,7 @@
 
 
 
-body{
-  background-image:linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/static/images/leafimage.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-}
+
 
 .container {
   width: 100%;
@@ -59,7 +53,7 @@ p {
   box-sizing: border-box;
   cursor: pointer;
   margin: 10px 15px;
-  background-image: url(imastages/grapesimage.jpg);
+  background-image: url(/static/images/grapesimage.jpg);
   transition: transform 0.5s;
   background-position: center;
   background-size: cover;

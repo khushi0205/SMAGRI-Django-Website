@@ -16,7 +16,10 @@
 
 </head>
 <!-- <link rel="icon" type="image/jpeg" href="/static/rrr.jpeg"/> -->
-<body style="background-image: url(/static/images/editbg.png);background-size: cover; background-repeat: none;">
+<body >
+  <div class="background">
+    <!-- Content here will have the background image -->
+</div>
   <!-- Your content here -->
   {% include 'navigation.html' %}
   {% block content %}
@@ -25,4 +28,18 @@
 
 </html>
 
-
+<style>
+  .background {
+    background-image: url('/static/images/corndark.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* Set the height of the background section to fill the viewport */
+    height: 100vh;
+    /* Ensure that the background section stays fixed while the content scrolls */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1; /* Ensure that the background stays behind the content */
+}
+</style>

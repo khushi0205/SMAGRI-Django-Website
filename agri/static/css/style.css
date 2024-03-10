@@ -15,7 +15,7 @@ body{
     min-width: 400px;
     overflow: hidden;
     /* background: #fe6c6d; */
-    background-image:linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+    background-image:linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(/static/images/corn.jpg);
 }
 .home-content p{
    font-size: 40px;
@@ -174,56 +174,7 @@ header nav #toggle
 }
 
 
-.home .images .img-1,
-.home .images .img-2,
-.home .images .img-3,
-.home .images .img-4,
-.home .images .img-5,
-.home .images .img-6,
-.home .images .img-7
-{
-    width : 100%;
-    height: 100vh;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: -10;
-     
-}
-/* sky */
-.home .images .img-1{
-    background: url('/static/images/img3.png');
-    background-position: center;
-    background-size: cover;
-}
 
-/* birds  */
-.home .images .img-2{
-    background: url('/static/images/img4.png');
-    background-position: center;
-    background-size: cover;
-}
-/* sun glare */
-
-.home .images .img-3{
-    background: url('/static/images/img5.png');
-    background-position: center;
-    background-size: cover;
-}
-
-/* tree  */
-.home .images .img-4{
-    background: url('/static/images/img2.png');
-    background-position: center;
-    background-size: cover;
-}
-
-/* grass */
-.home .images .img-5{
-    background: url('/static/images/img1.png');
-    background-position: center;
-    background-size: cover;
-}
 /* .home .images .img-6{
     background: url(Images/img2.png);
     background-position: center;

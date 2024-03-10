@@ -227,3 +227,5 @@ def read_sensor_and_send_data():
     response = requests.post(url, data=payload)
     print(payload)
     return payload, nitrogen, phosphorus, potassium
+
+

@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 import joblib
 import pandas as pd
 import os
@@ -12,8 +12,12 @@ from django.utils.safestring import mark_safe
 import plotly.express as px
 from django.views.decorators.csrf import csrf_exempt
 import logging
+from django.apps import apps
+
 path = os.path.join(os.path.dirname(__file__), 'ds1.csv')
 logger = logging.getLogger(__name__)
+
+
 def Wel(request):
     return render(request, 'index2.html')
 def Welcome(request):
@@ -133,28 +137,29 @@ def User2(request):
 
     if not data_html or not plotly_html or not MN:
         data = pd.DataFrame()
+        app_config = apps.get_app_config('smagri')
         if C == 'Jowar':
-            model = load_model('Jowar_mn.h5')
+            model = app_config.jowar_model
             data = predict(jowar, model)
             MN = MN_jowar
         elif C == 'Gram':
-            model = load_model('Gram_mn.h5')
+            model = app_config.gram_model
             data = predict(gram, model)
             MN = MN_gram
         elif C == 'Grapes':
-            model = load_model('Grapes_mn.h5')
+            model = app_config.grapes_model
             data = predict(grapes, model)
             MN = MN_grapes
         elif C == 'Ginger':
-            model = load_model('Ginger_mn.h5')
+            model = app_config.ginger_model
             data = predict(ging, model)
             MN = MN_ging
         elif C == 'Wheat':
-            model = load_model('Wheat_mn.h5')
+            model = app_config.wheat_model
             data = predict(wheat, model)
             MN = MN_wheat
         elif C == 'Maize':
-            model = load_model('Maize_mn.h5')
+            model = app_config.maize_model
             data = predict(maize, model)
             MN = MN_maize
 

@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-s3$)3jv!+$uo0)p-hyu&9ro1*%9-wnejms!k%ty5-4c#d^yro%
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','https://mj6wmprx-8000.inc1.devtunnels.ms/','smart-agri-rnyj.onrender.com']
-
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 # Application definition
 
 INSTALLED_APPS = [

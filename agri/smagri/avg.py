@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
+import plotly.express as px
+
+
 Dist = {'Kolhapur':0,'Solapur':1,'Satara':2,'Sangli':3,'Pune':4}
 Soil = {'Black':0,'Red':1, 'MediumBrown': 2, 'DarkBrown': 3, 'LightBrown':4,'ReddishBrown':5}
 dataset = pd.read_csv(path)
@@ -43,6 +46,7 @@ def closest_value(data, C):
 
 def predict(crop_data, model):
     scaler = MinMaxScaler()
+    scaled_data = scaler.fit_transform(crop_data[['Min Price (Rs./Quintal)', 'Max Price (Rs./Quintal)', 'Modal Price (Rs./Quintal)']])
     most_recent_timestamp = pd.to_datetime(crop_data['Price Date'].max())
    
     # Number of quarters to predict into the future
@@ -204,6 +208,34 @@ def mn(crop_data, model,MNe):
         future_prices_df = future_prices_df[['Timestamp', 'Market_Name'] + columns]
 
     return future_prices_df
+
+def graph_avg(data, C):
+    data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
+    data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
+    #data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
+
+    data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
+    grouped_df = data.groupby('Quarter').mean().reset_index()
+
+    # Plotting with Plotly Express
+    fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change'],
+            labels={'value': 'Average Percentage Change'},
+                        title=f'{C} Average Predicted Price Changes Every Three Months',
+                        markers=True, line_shape='linear')
+
+    fig.update_layout(width=1000, height=600)
+    return fig
+
+def graph_price(data, MNe):
+    fig = px.line(data, x='Timestamp',
+                            y=['Predicted Min Price', 'Predicted Max Price'],
+                            labels={'value': 'Price (Rs./Quintal)'},
+                            title=f'Predicted Prices for {MNe}',
+                            markers=True, line_shape='linear')
+
+    fig.update_layout(width=1000, height=600)
+    return fig
+
 
 def read_sensor_and_send_data():
     import serial

@@ -3,7 +3,7 @@ import joblib
 import pandas as pd
 import os
 from .variables import Dist, Soil, F, Fert, MN_ging, MN_gram, MN_grapes, MN_jowar, ging,jowar,gram,grapes,maize,wheat,MN_maize,MN_wheat
-from .avg import umm, closest_value, predict, mn, read_sensor_and_send_data
+from .avg import umm, closest_value, predict, mn, read_sensor_and_send_data, graph_avg, graph_price
 from .models import Crop
 from keras.models import load_model
 from django.template.defaultfilters import safe
@@ -164,21 +164,8 @@ def User2(request):
             MN = MN_maize
 
         data_html = data.to_html(classes='table table-bordered hidden-row')
-        data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
-        data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
-        #data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
-
-        data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
-        grouped_df = data.groupby('Quarter').mean().reset_index()
-
-        # Plotting with Plotly Express
-        fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change'],
-                      labels={'value': 'Average Percentage Change'},
-                      title='Average Predicted Price Changes Every Three Months',
-                      markers=True, line_shape='linear')
-
-        fig.update_layout(width=1000, height=600)
-        # Convert the Plotly figure to HTML
+        
+        fig = graph_avg(data,C)
         plotly_html = fig.to_html(full_html=False)
 
         # Cache the data
@@ -201,7 +188,7 @@ def User3(request):
             data = pd.DataFrame()
             app_config = apps.get_app_config('smagri')
             if C == 'Jowar':
-                model = app_config.jowar_model
+                model = load_model('Jowar_mn.h5')
                 data = predict(jowar, model)
                 MN = MN_jowar
             elif C == 'Gram':
@@ -226,20 +213,7 @@ def User3(request):
                 MN = MN_maize
 
             data_html = data.to_html(classes='table table-bordered hidden-row')
-            data['Min Price Change'] = data['Predicted Min Price'].pct_change() * 100
-            data['Max Price Change'] = data['Predicted Max Price'].pct_change() * 100
-            #data['Modal Price Change'] = data['Predicted Modal Price'].pct_change() * 100
-
-            data['Quarter'] = data['Timestamp'].dt.to_period("Q").astype(str)
-            grouped_df = data.groupby('Quarter').mean().reset_index()
-
-            # Plotting with Plotly Express
-            fig = px.line(grouped_df, x='Quarter', y=['Min Price Change', 'Max Price Change'],
-                        labels={'value': 'Average Percentage Change'},
-                        title='Average Predicted Price Changes Every Three Months',
-                        markers=True, line_shape='linear')
-
-            fig.update_layout(width=1000, height=600)
+            fig = graph_avg(data,C)
             # Convert the Plotly figure to HTML
             plotly_html = fig.to_html(full_html=False)
 
@@ -284,13 +258,8 @@ def User3(request):
 
             data_html = data.to_html(classes='table table-bordered hidden-row')
             
-            fig = px.line(data, x='Timestamp',
-                        y=['Predicted Min Price', 'Predicted Max Price'],
-                        labels={'value': 'Price (Rs./Quintal)'},
-                        title=f'Predicted Prices for {MNe}',
-                        markers=True, line_shape='linear')
-
-            fig.update_layout(width=1000, height=600)
+            #price
+            fig = graph_price(data,MNe)
 
             # Convert the Plotly figure to HTML
             plotly_html = fig.to_html(full_html=False)
@@ -299,6 +268,7 @@ def User3(request):
             cache.set(f"data_html_{C}_{MNe}", data_html, timeout=None)  # No timeout means cache indefinitely
             cache.set(f"plotly_html_{C}_{MNe}", plotly_html, timeout=None)
             cache.set(f"MN_{C}", MN, timeout=None)
+
 
         return render(request, 'market_prices_result.html', {'MN': MN, 'data': data_html, 'Crop': C, 'plotly_html': mark_safe(plotly_html)}) 
 

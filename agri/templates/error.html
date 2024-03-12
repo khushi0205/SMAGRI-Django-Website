@@ -1,0 +1,119 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Website</title>
+</head>
+<body>
+
+    <div class="main">
+        <h1 style="font-weight: 800;margin-top: -20px;">Error</h1>
+        <h3 style="font-weight: 800;">{{error_message}}</h3>
+      
+   </div>
+   
+</body>
+</html>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;&display=swap');
+
+
+input[type="submit"] {
+  background-color: rgb(255, 60, 0);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Hover effect for submit button */
+input[type="submit"]:hover {
+  background-color: #f122a2;
+}
+
+
+
+*{
+   margin: 0;
+   padding: 0;
+}
+/* ////////////////////////////////////////////////////////////// */
+
+body {
+    background-color: #2c3e50;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+}
+
+
+h1 {
+    color: white;
+    font-weight: 800;
+}
+
+.main {
+    width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    color: rgb(72, 12, 12);
+}
+/* Add this to your existing CSS */
+
+
+
+.leaf {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #2ecc71; /* Leaf color */
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    transform: rotate(45deg);
+    z-index: 1; /* Ensure the leaves appear above the form content */
+}
+
+.choice,
+.int {
+    margin-bottom: 15px;
+}
+
+.name {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.option,
+.intinput {
+    width: calc(100% - 16px); /* Adjusted width calculation to account for padding */
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #2980b9;
+}
+
+</style>
+{% endblock %}
